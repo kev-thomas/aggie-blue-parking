@@ -12,9 +12,9 @@ __Big booty gainz__
 
 __directory organization__
 
-`__README.md`
-`|`
-'|__Server/'
-`|`
-`|__Client/`
+	__README.md
+	|
+	|__Server/
+	|
+	|__Client/
 
