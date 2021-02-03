@@ -40,3 +40,38 @@ __Commit & push procedure__
 - Write meaningful commit message `git commit -m "<message>"`
 - `git push`
 
+## Tool stack description and setup procedure
+
+__Front end:__
+
+For the front end we will use the [vue](https://vuejs.org/) framework on javascript.
+
+__Back end:__
+
+For the back end we will use [djando](https://www.djangoproject.com/) framework for python. We will be using python3.6 or above.
+
+__Database:__
+
+Not sure yet
+
+__Setup:__
+
+Not sure yet
+
+## Build instructions
+
+Not sure yet
+
+## Unit testing instruction:
+
+Each endpoint of the apis in the back end must be individually tested using the [postman](https://www.postman.com/) app.
+
+I don't know how to test the front end.
+
+## System testing instructions:
+
+Not sure yet
+
+## Other development notes, as needed:
+
+None so far
