@@ -3,14 +3,14 @@
 ## Description
 Big Blue Parking Genie is a web application that allows parking space owner to coordinate with a university employed supervisor to provide and rent out parking spaces during events and games. The application will also allow users to find and purchase the parking space provided by the owners. 
  
-# Team members:
+### Team members:
 
 -	Andrew Jouffray - (Back-end development)
 -	Kevin Thomas - (Front-end development)
 -	Sarah Jones - (Back-end development)
 -	Spencer Hanson - (Scrum master & Front-end development)
 
-# Ogranisation of the repo:
+### Ogranisation of the repo:
 
 __directory organization__
 
@@ -33,6 +33,7 @@ __General procedure__
 - Always `git pull` before working
 - Avoid working on the same file at the same time
 - Avoid commiting broken code
+- good english grammar is completely optional
 
 __Commit & push procedure__
 - In the proper directory `git add .`
