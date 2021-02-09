@@ -59,6 +59,7 @@ __Setup:__
 This project is quite simple to run in the linux terminal:
 
 `$ cd <project directory>/`
+
 `$ python manage.py runserver`
 
 The server should be up and running at:
@@ -72,7 +73,9 @@ To login as an admin:
 ## Build instructions
 
 make sure you have python 3.5 or higher
-`$ pip install django`
+
+`$ pip install django`\
+
 `$ git clone git@github.com:andrewjouffray/group9-project.git`
 
 ## Unit testing instruction:
