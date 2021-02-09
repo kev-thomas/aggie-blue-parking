@@ -15,10 +15,23 @@ Big Blue Parking Genie is a web application that allows parking space owner to c
 __directory organization__
 
 	__README.md
-	|
-	|__Client/
-	|
-	|__Server/
+	|__server/
+	   |__db.sqlite3
+	   |__genie/
+	   |  |_admin.py
+	   |  |_apps.py
+	   |  |_ __init__.py
+	   |  |_migrations/
+	   |  |_models.py
+	   |  |_tests.py
+	   |  |_urls.py
+	   |  |_views.py 
+	   |__server/
+	      |_asgi.py
+              |_ __init__.py
+	      |_settings.py
+              |_urls.py
+              |_wsgi.py
 
 __Description__
 
@@ -74,7 +87,7 @@ To login as an admin:
 
 make sure you have python 3.5 or higher
 
-`$ pip install django`\
+`$ pip install django`
 
 `$ git clone git@github.com:andrewjouffray/group9-project.git`
 
