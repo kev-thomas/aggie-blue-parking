@@ -52,21 +52,36 @@ For the back end we will use [djando](https://www.djangoproject.com/) framework 
 
 __Database:__
 
-Not sure yet
+Django uses [SQLite](https://www.sqlite.org/index.html) by default and we will be using it on this project.
 
 __Setup:__
 
-Not sure yet
+This project is quite simple to run in the linux terminal:
+
+`$ cd <project directory>/`
+`$ python manage.py runserver`
+
+The server should be up and running at:
+
+`http://localhost:8000`
+
+To login as an admin:
+
+`http://localhost:8000/admin/`
 
 ## Build instructions
 
-Not sure yet
+make sure you have python 3.5 or higher
+`$ pip install django`
+`$ git clone git@github.com:andrewjouffray/group9-project.git`
 
 ## Unit testing instruction:
 
 Each endpoint of the apis in the back end must be individually tested using the [postman](https://www.postman.com/) app.
 
-I don't know how to test the front end.
+Functionality to test:
+
+- 
 
 ## System testing instructions:
 
