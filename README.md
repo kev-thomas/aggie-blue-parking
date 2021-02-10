@@ -29,10 +29,10 @@ __directory organization__
 	   |  |_public/  <-------- Front End
 	   |__parking/   <-------- Website configuration
 	      |_asgi.py
-              |_ __init__.py
+	      |_ __init__.py
 	      |_settings.py
-              |_urls.py
-              |_wsgi.py
+	      |_urls.py
+	      |_wsgi.py
 
 __Description__
 
