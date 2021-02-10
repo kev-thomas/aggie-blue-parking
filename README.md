@@ -15,19 +15,19 @@ Big Blue Parking Genie is a web application that allows parking space owner to c
 __directory organization__
 
 	__README.md
-	|__server/
+	|__parking/      <--------- root
 	   |__db.sqlite3
-	   |____genie/__
+	   |__genie/     <--------- App Directory
 	   |  |_admin.py
 	   |  |_apps.py
 	   |  |_ __init__.py
-	   |  |___migrations/__
+	   |  |_migrations/
 	   |  |_models.py
 	   |  |_tests.py
 	   |  |_urls.py
 	   |  |_views.py
-	   |  |___public/__ 
-	   |__server/
+	   |  |_public/  <-------- Front End
+	   |__parking/   <-------- Website configuration
 	      |_asgi.py
               |_ __init__.py
 	      |_settings.py
@@ -36,9 +36,9 @@ __directory organization__
 
 __Description__
 
-The back-end development should be done in the Server directory, this is where the API will be developed along with the database management. All authorisation should also be processed in the backend for security purposes.
+The Directory structure follows the basic template of a django project with the  `parking/` directory being the parent of the application directory `genie/`. The majority of the backend development will take place in the `genie/` directory and the front end devdevelopment will de saved in the `genie/public/` directory.
 
-The Front end should be developed in the Client directory and provide all the forms and pages to be loaded by the client side browser.
+The `parking/parking/` directory is where the configuration files and primary router files for the website will be saved.
 
 ## Version control procedures:
 
@@ -72,7 +72,7 @@ __Setup:__
 
 This project is quite simple to run in the linux terminal:
 
-`$ cd <project directory>/`
+`$ cd <project root directory>/`
 
 `$ python manage.py runserver`
 
@@ -92,17 +92,28 @@ make sure you have python 3.5 or higher
 
 `$ git clone git@github.com:andrewjouffray/group9-project.git`
 
+__Note: When making changes to the models, update the database by:__
+
+	$ cd <project root directory>/
+	$ python manage.py makemigartions
+	$ python manage.py migrate
+
 ## Unit testing instruction:
 
 Each endpoint of the apis in the back end must be individually tested using the [postman](https://www.postman.com/) app.
 
-Functionality to test:
-
-- 
+This will be updated once implementation details will be better understood.
 
 ## System testing instructions:
 
-Not sure yet
+The whole components that make up the system include:
+
+- Python Server Backend 
+- Javascript and HTML / CSS front end
+- The SQLite database
+- Web Browser
+
+In order to test the whole system, we must run all implemented requirements test in several browsers, in different screen sizes, as well as on the `http://locahost:8000` and using the local IP address of the server.
 
 ## Other development notes, as needed:
 
