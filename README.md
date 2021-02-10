@@ -17,15 +17,16 @@ __directory organization__
 	__README.md
 	|__server/
 	   |__db.sqlite3
-	   |__genie/
+	   |____genie/__
 	   |  |_admin.py
 	   |  |_apps.py
 	   |  |_ __init__.py
-	   |  |_migrations/
+	   |  |___migrations/__
 	   |  |_models.py
 	   |  |_tests.py
 	   |  |_urls.py
-	   |  |_views.py 
+	   |  |_views.py
+	   |  |___public/__ 
 	   |__server/
 	      |_asgi.py
               |_ __init__.py
