@@ -15,7 +15,7 @@ Big Blue Parking Genie is a web application that allows parking space owner to c
 __directory organization__
 
 	__README.md
-	|__documentation/
+	|__docs/
 	|  |_usecases/
 	|__parking/      <--------- root
 	   |__db.sqlite3
