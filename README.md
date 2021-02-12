@@ -15,6 +15,8 @@ Big Blue Parking Genie is a web application that allows parking space owner to c
 __directory organization__
 
 	__README.md
+	|__documentation/
+	|  |_usecases/
 	|__parking/      <--------- root
 	   |__db.sqlite3
 	   |__genie/     <--------- App Directory
@@ -58,11 +60,11 @@ __Commit & push procedure__
 
 __Front end:__
 
-For the front end we will use the [vue](https://vuejs.org/) framework on javascript.
+For the front end we will use the [Vue](https://vuejs.org/) framework on javascript.
 
 __Back end:__
 
-For the back end we will use [djando](https://www.djangoproject.com/) framework for python. We will be using python3.6 or above.
+For the back end we will use [Djando](https://www.djangoproject.com/) framework for python. We will be using python3.6 or above.
 
 __Database:__
 
@@ -86,7 +88,7 @@ To login as an admin:
 
 ## Build instructions
 
-make sure you have python 3.5 or higher
+make sure you have python 3.6 or higher
 
 `$ pip install django`
 
@@ -100,7 +102,7 @@ __Note: When making changes to the models, update the database by:__
 
 ## Unit testing instruction:
 
-Each endpoint of the apis in the back end must be individually tested using the [postman](https://www.postman.com/) app.
+Each endpoint of the apis in the back end must be individually tested using the [Postman](https://www.postman.com/) app.
 
 This will be updated once implementation details will be better understood.
 
