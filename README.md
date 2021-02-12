@@ -38,7 +38,7 @@ __directory organization__
 
 __Description__
 
-The Directory structure follows the basic template of a django project with the  `parking/` directory being the parent of the application directory `genie/`. The majority of the backend development will take place in the `genie/` directory and the front end devevelopment will de saved in the `genie/public/` directory.
+The Directory structure follows the basic template of a django project with the  `parking/` directory being the parent of the application directory `genie/`. The majority of the backend development will take place in the `genie/` directory and the front end development will de saved in the `genie/public/` directory.
 
 The `parking/parking/` directory is where the configuration files and primary router files for the website will be saved.
 
