@@ -28,8 +28,8 @@ __directory organization__
 	   |  |_tests.py
 	   |  |_urls.py
 	   |  |_views.py
-	   |  |_public/  <-------- Front End
-	   |__parking/   <-------- Website configuration
+	   |  |_templates/ <-------- Front End
+	   |__parking/     <-------- Website configuration
 	      |_asgi.py
 	      |_ __init__.py
 	      |_settings.py
@@ -38,7 +38,7 @@ __directory organization__
 
 __Description__
 
-The Directory structure follows the basic template of a django project with the  `parking/` directory being the parent of the application directory `genie/`. The majority of the backend development will take place in the `genie/` directory and the front end development will de saved in the `genie/public/` directory.
+The Directory structure follows the basic template of a django project with the  `parking/` directory being the parent of the application directory `genie/`. The majority of the backend development will take place in the `genie/` directory and the front end development will de saved in the `genie/templates/genie/` directory.
 
 The `parking/parking/` directory is where the configuration files and primary router files for the website will be saved.
 
@@ -80,7 +80,7 @@ This project is quite simple to run in the linux terminal:
 
 The server should be up and running at:
 
-`http://localhost:8000`
+`http://localhost:8000/genie`
 
 To login as an admin:
 
