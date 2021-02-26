@@ -16,6 +16,7 @@ class ParkingSpot(models.Model):
     owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
     address = models.CharField(max_length = 200)
     price = models.IntegerField(default = 1)
+    distance = models.IntegerField(default = 2)
     available = models.BooleanField(default = True)
 
     def is_available(self):

@@ -1,0 +1,9 @@
+{% if parkingSpots %}
+    <ul>
+    {% for spot in parkingSpots %}
+        <li><a href="/genie/{{ spot.id }}/">{{ spot.address }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No parking spots available right now.</p>
+{% endif %}
