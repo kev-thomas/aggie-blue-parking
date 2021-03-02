@@ -17,7 +17,9 @@ __directory organization__
 	__README.md
 	|__docs/
 	|  |_usecases/
-	|__parking/      <--------- root
+	|__front/        <--------- Front End
+	|  |_README.md   <--------- Front End instructions
+	|__parking/      <--------- Back end
 	   |__db.sqlite3
 	   |__genie/     <--------- App Directory
 	   |  |_admin.py
@@ -28,7 +30,7 @@ __directory organization__
 	   |  |_tests.py
 	   |  |_urls.py
 	   |  |_views.py
-	   |  |_templates/ <-------- Front End
+	   |  |_templates/
 	   |__parking/     <-------- Website configuration
 	      |_asgi.py
 	      |_ __init__.py
