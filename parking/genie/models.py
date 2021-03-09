@@ -27,3 +27,21 @@ class ParkingSpot(models.Model):
 
 
 
+class User(models.Model):
+    firstname = models.CharField(max_length=200)
+    lastname = models.CharField(max_length=200)
+    username = models.CharField(max_length=25, unique=True)
+    email = models.EmailField(max_length=254)
+    password = models.CharField(max_length=50)
+    renter = models.BooleanField(default=True)
+    owner = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.username
+
+    def can_rent(self):
+        return self.renter
+
+    def can_own(self):
+        return self.owner
+
