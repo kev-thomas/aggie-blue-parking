@@ -45,3 +45,6 @@ class User(models.Model):
     def can_own(self):
         return self.owner
 
+    def get_password(self):
+        return self.password
+

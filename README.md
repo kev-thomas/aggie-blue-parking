@@ -93,6 +93,7 @@ To login as an admin:
 make sure you have python 3.6 or higher
 
 `$ pip install django`
+`$ pip install PyJWT`
 
 `$ git clone git@github.com:andrewjouffray/group9-project.git`
 
@@ -106,7 +107,48 @@ __Note: When making changes to the models, update the database by:__
 
 Each endpoint of the apis in the back end must be individually tested using the [Postman](https://www.postman.com/) app.
 
-This will be updated once implementation details will be better understood.
+### User Login Testing
+
+Temporary secret: `"secret"`
+
+algorithm: `"HS256"`
+
+Payload should look like this:
+
+	payload = {"username": "john", "password":"secret"}
+
+using PyJWT you can encode it like this: (note: I added a user with those credentials so you can actually test it)
+
+	encoded_jwt = jwt.encode({"username": "john", "password":"secret"}, "secret", algorithm="HS256")
+
+To make a request:
+
+	header = {
+		Content-Type: application/json
+		Authentication: <JWT token here>
+	}
+	
+Leave the body empty
+
+Make a `GET` request to `localhost:8000/genie/login`
+
+Answer should look like this if auth successful:
+
+	{
+		"responce": "successful",
+		"user": "john",
+		"canRent": true,
+		"canOwn": false
+	}
+
+If not successful:
+
+	{
+		"responce": "failed",
+		"user": "none",
+		"canRent": "none",
+		"canOwn": "none"
+	}
 
 ## System testing instructions:
 
