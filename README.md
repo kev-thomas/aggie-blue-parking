@@ -121,7 +121,7 @@ using PyJWT you can encode it like this: (note: I added a user with those creden
 
 	encoded_jwt = jwt.encode({"username": "john", "password":"secret"}, "secret", algorithm="HS256")
 
-To make a request:
+To make a request (POST):
 
 	header = {
 		Content-Type: application/json
@@ -130,25 +130,19 @@ To make a request:
 	
 Leave the body empty
 
-Make a `GET` request to `localhost:8000/genie/login`
+Make a `POST` request to `localhost:8000/genie/login`
 
 Answer should look like this if auth successful:
 
+	code 200
 	{
-		"responce": "successful",
-		"user": "john",
-		"canRent": true,
-		"canOwn": false
+		token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im90aGVyIiwicGFzc3dvcmQiOiIxMjM0NSJ9.V0BXwNldF53fI8peQE_vkyK5kH44V5tCuzs557SfPp4"
 	}
 
 If not successful:
 
-	{
-		"responce": "failed",
-		"user": "none",
-		"canRent": "none",
-		"canOwn": "none"
-	}
+	code 401
+	Unauthorized
 
 ## System testing instructions:
 

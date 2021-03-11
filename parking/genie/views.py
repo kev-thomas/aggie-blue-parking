@@ -10,6 +10,7 @@ from django.contrib.auth import authenticate
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
+from datetime import datetime, timedelta
 
 fmt = getattr(settings, 'LOG_FORMAT', None)
 lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
@@ -33,7 +34,7 @@ def index(request):
 @csrf_exempt
 def login(request):
 
-    if request.method == 'GET':
+    if request.method == 'POST':
 
         header = request.headers
         token = header['Authorization']
@@ -51,47 +52,38 @@ def login(request):
             canRent = False
             canOwn = False
 
-            if level >= 1:
-                canRent = True
-            if level >= 2:
-                canOwn = True
+            exp = datetime.now() + timedelta(hours=1)
+            responce_token = jwt.encode({'username': username, 'password':password, 'permissions': level, 'exp': exp }, 'backend-secret', algorithm='HS256')
+            content = {'token':responce_token}
 
-            content = {
-                'responce': 'successful',
-                'user': username,
-                'canRent': canRent,
-                'canOwn': canOwn
-            }
+            json_response = json.dumps(content)
+            return HttpResponse(json_response, content_type="text/json-comment-filtered", status=200)
 
         else:
-
-            content = {
-                'responce': 'failed',
-                'user':'none',
-                'canRent':'none',
-                'canOwn': 'none'
-            }
+            return HttpResponse('Unauthorized', status=401)
 
             
-        json_response = json.dumps(content)
  
-        return HttpResponse(json_response, content_type="text/json-comment-filtered")
 
 
-# Helper Functions, not handlers
+# Helper Functions, not handlers =================================================================================HELPERS===================================
+
+# authenticates the user
 def auth(uname, password):
 
-    user = User(username=uname)
+    try:
+        user = User.objects.get(username=uname)
+    
+    except Exception as e:
+
+        return False
 
     if user is None:
-        print("no user")
         return False
     else:
-        print(user.get_password(), password)
         if user.get_password() == password:
             return True
         else:
-            print("wrong password")
             return False
 
 # find the user by username and check what he can do
