@@ -42,6 +42,7 @@
     </v-main>
   </div>
 </template>
+
 <script>
 export default {
   name: 'Home',
@@ -54,13 +55,13 @@ export default {
 
   beforeCreate() {
     if(!this.$session.exists()) {
+      if(this.$router.currentRoute.name !== 'Login')
       this.$router.push('/login');
     }
   },
 
   methods: {
     logout() {
-      this.$session.destroy();
       this.$router.replace('/logout');
     }
   },

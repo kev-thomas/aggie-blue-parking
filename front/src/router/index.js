@@ -15,11 +15,23 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: Login,
+    beforeEnter: (to, from, next) => {
+      if(from.name === 'Login') {
+        next(false)
+      }
+      else {
+        next();
+      }
+    }
   },
   {
     path: '/logout',
-    redirect: '/login'
+    redirect: '/login',
+    beforeEnter: (to, from, next) => {
+      this.$session.destroy();
+      next();
+    }
   },
   {
     path: '/about',
