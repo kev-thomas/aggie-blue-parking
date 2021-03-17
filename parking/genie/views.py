@@ -12,6 +12,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from datetime import datetime, timedelta
 
+
 fmt = getattr(settings, 'LOG_FORMAT', None)
 lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
 
@@ -30,6 +31,45 @@ def index(request):
     parking_list = serializers.serialize('json', parkingSpots)
 
     return HttpResponse(parking_list, content_type="text/json-comment-filtered")
+
+# gets the users rentals if the token is valid
+def getUserRentals(request):
+
+    if request.method == 'GET':
+
+        header = request.headers
+        token = header['Authorization']
+        bToken = token.encode('utf-8')
+
+        try:
+            payload = jwt.decode(bToken, "secret", algorithms=["HS256"])
+
+            username = payload['username']
+            permissions = payload['permissions']
+            exp = payload['exp']
+
+            print(username)
+            print(permissions)
+
+            parkingSpots = ParkingSpot.objects.filter(renter__username=username).order_by('-distance')
+            parking_list = serializers.serialize('json', parkingSpots)
+            dict_parking = json.loads(parking_list)[0]
+            print(dict_parking)
+            dict_parking['fields']['token'] = token
+            json_parking = json.dumps(dict_parking['fields'])
+
+
+            return HttpResponse(json_parking, content_type="text/json-comment-filtered")
+
+        except Exception as e:
+
+
+
+            # maybe log the exception
+            print(e)
+
+            return HttpResponse('Unauthorized', status=401)
+
 
 @csrf_exempt
 def login(request):
@@ -53,7 +93,7 @@ def login(request):
             canOwn = False
 
             exp = datetime.now() + timedelta(hours=1)
-            responce_token = jwt.encode({'username': username, 'password':password, 'permissions': level, 'exp': exp }, 'backend-secret', algorithm='HS256')
+            responce_token = jwt.encode({'username': username, 'permissions': level, 'exp': exp }, 'secret', algorithm='HS256')
             content = {'token':responce_token}
 
             json_response = json.dumps(content)
