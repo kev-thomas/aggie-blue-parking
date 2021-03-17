@@ -53,11 +53,21 @@ def getUserRentals(request):
 
             parkingSpots = ParkingSpot.objects.filter(renter__username=username).order_by('-distance')
             parking_list = serializers.serialize('json', parkingSpots)
-            dict_parking = json.loads(parking_list)[0]
+            dict_parking = json.loads(parking_list)
             print(dict_parking)
-            dict_parking['fields']['token'] = token
-            json_parking = json.dumps(dict_parking['fields'])
 
+            # removes info about the database
+            spots = []
+            dict_data = {}
+            for spot in dict_parking:
+
+                spots.append(spot['fields'])
+
+
+            dict_data['spots'] = spots
+            dict_data['token'] = token
+
+            json_parking = json.dumps(dict_data)
 
             return HttpResponse(json_parking, content_type="text/json-comment-filtered")
 
