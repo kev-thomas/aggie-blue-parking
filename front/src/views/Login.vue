@@ -50,6 +50,7 @@ export default {
       if(this.$refs.form.validate()) {
         this.loading = true
         if(this.user) {
+
           this.$session.start();
           this.$session.set('user', this.user);
           router.push('/')
