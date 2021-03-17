@@ -67,9 +67,11 @@ def getUserRentals(request):
             dict_data['spots'] = spots
             dict_data['token'] = token
 
-            json_parking = json.dumps(dict_data)
+            response = JsonResponse(dict_data,status=200)
 
-            return HttpResponse(json_parking, content_type="text/json-comment-filtered")
+            response['Access-Control-Allow-Origin'] = 'http://localhost:8080/'
+
+            return response
 
         except Exception as e:
 
@@ -78,7 +80,12 @@ def getUserRentals(request):
             # maybe log the exception
             print(e)
 
-            return HttpResponse('Unauthorized', status=401)
+            content = {'response': 'Unauthorized'}
+            response = JsonResponse(content,status=401)
+
+            response['Access-Control-Allow-Origin'] = 'http://localhost:8080/'
+
+            return response
 
 
 @csrf_exempt
@@ -106,11 +113,20 @@ def login(request):
             responce_token = jwt.encode({'username': username, 'permissions': level, 'exp': exp }, 'secret', algorithm='HS256')
             content = {'token':responce_token}
 
-            json_response = json.dumps(content)
-            return HttpResponse(json_response, content_type="text/json-comment-filtered", status=200)
+            response = JsonResponse(content,status=200)
+
+            response['Access-Control-Allow-Origin'] = 'http://localhost:8080/'
+
+            return response
 
         else:
-            return HttpResponse('Unauthorized', status=401)
+
+            content = {'response': 'Unauthorized'}
+            response = JsonResponse(content,status=401)
+
+            response['Access-Control-Allow-Origin'] = 'http://localhost:8080/'
+
+            return response
 
             
  
