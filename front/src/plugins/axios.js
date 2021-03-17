@@ -6,6 +6,7 @@ let config = {
     timeout: 10000,
     headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
     }
 }
 const parking = axios.create(config)
