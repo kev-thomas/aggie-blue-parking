@@ -92,8 +92,7 @@ To login as an admin:
 
 make sure you have python 3.6 or higher
 
-`$ pip install django`
-`$ pip install PyJWT`
+`$ pip install -r requirements.txt`
 
 `$ git clone git@github.com:andrewjouffray/group9-project.git`
 

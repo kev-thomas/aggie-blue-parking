@@ -4,7 +4,7 @@
     <v-card-title>Login</v-card-title>
     <v-card-text>
       <v-text-field
-          v-model="user['name']"
+          v-model="user['username']"
           label="Username"
           :rules="usernameRules"
           required
@@ -37,7 +37,7 @@ export default {
 
   data: () => ({
     user: {
-      name: '',
+      username: '',
       password: ''
     },
     person: null,
@@ -52,19 +52,22 @@ export default {
         this.loading = true
         console.log(`posting to ${parking.defaults.baseURL}`)
         if(this.user) {
-          let response = await parking({
-            method: 'POST',
-            url: 'http://localhost:8000/login',
-            data: this.user
-          })
-          this.person = response.data
+          try {
+            let response = await parking.post('login', this.user);
+            this.person = response.data;
+          }
+          catch(error) {
+            console.log('wtf')
+            console.log(error)
+          }
+
         }
         console.log(this.person)
         if(!this.person.ERROR) {
           this.$session.start();
           this.$session.set('user', this.person);
           console.log(this.person)
-          this.$router.push('/')
+          await this.$router.push('/')
         }
       }
       else {

@@ -11,7 +11,7 @@ export default {
             ],
             passwordRules: [
                 value => !!value || "Password is required.",
-                value => (value && value.length > 7) || "Password must be more than 7 characters long."
+                value => (value && value.length > 5) || "Password must be more than 5 characters long."
             ],
         }
     }
