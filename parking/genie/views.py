@@ -93,8 +93,7 @@ def register(request):
                 renter = renter,
                 owner = owner
             )
-            newUser.save()
-            login(request)
+            return HttpResponse('OK', status=200)
             
  
 
