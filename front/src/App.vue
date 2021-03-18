@@ -27,7 +27,7 @@
           @click="appDrawer = !appDrawer"
           v-show="this.$session.exists()"
       ></v-app-bar-nav-icon>
-      <v-toolbar-title>Welcome!</v-toolbar-title>
+      <v-toolbar-title>{{this.title}}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon
            @click="logout"
@@ -50,6 +50,7 @@ export default {
   data: () => ({
     loggingOut: false,
     appDrawer: false,
+    title: process.env.VUE_APP_TITLE,
 
   }),
 

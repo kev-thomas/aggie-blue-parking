@@ -10,14 +10,16 @@ let decodeOptions = {
     issuer: 'NeuralCog'
 }
 
+let key = "secret"
+
 const encode = function(payload) {
-    return jwt.sign(payload, process.env.KEY, encodeOptions);
+    return jwt.sign(payload, key, encodeOptions);
 }
 
 const decode = function(token) {
     let decoded;
     try {
-        decoded = jwt.verify(token, process.env.KEY, decodeOptions, function(error, payload) {
+        decoded = jwt.verify(token, key, decodeOptions, function(error, payload) {
             if(error) {
                 throw error;
             }

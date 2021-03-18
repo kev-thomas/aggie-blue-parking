@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import router from '../router'
+import parking from '../plugins/axios'
 export default {
   name: "Login",
 
@@ -40,20 +40,31 @@ export default {
       name: '',
       password: ''
     },
+    person: null,
     valid: true,
     loading: false,
     showPassword: false,
   }),
 
   methods: {
-    login() {
+    async login() {
       if(this.$refs.form.validate()) {
         this.loading = true
+        console.log(`posting to ${parking.defaults.baseURL}`)
         if(this.user) {
-
+          let response = await parking({
+            method: 'POST',
+            url: 'http://localhost:8000/login',
+            data: this.user
+          })
+          this.person = response.data
+        }
+        console.log(this.person)
+        if(!this.person.ERROR) {
           this.$session.start();
-          this.$session.set('user', this.user);
-          router.push('/')
+          this.$session.set('user', this.person);
+          console.log(this.person)
+          this.$router.push('/')
         }
       }
       else {
