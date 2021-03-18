@@ -62,6 +62,39 @@ def login(request):
         else:
             return HttpResponse('Unauthorized', status=401)
 
+
+@csrf_exempt
+def register(request):
+
+    if request.method == 'POST':
+
+        header = request.headers
+        token = header['Authorization']
+        bToken = token.encode('utf-8')
+        payload = jwt.decode(bToken, "secret", algorithms=["HS256"])
+
+        firstname = payload['firstname']
+        lastname = payload['lastname']
+        username = payload['username']
+        email = payload['email']
+        password = payload['password']
+        renter = payload['renter']
+        owner = payload['owner']
+
+        if User.objects.filter(username=username).exists():
+            return HttpResponse('Conflict', status=409)
+        else:
+            newUser = User(
+                firstname = firstname,
+                lastname = lastname,
+                username = username,
+                email = email,
+                password = password,
+                renter = renter,
+                owner = owner
+            )
+            newUser.save()
+            login(request)
             
  
 
