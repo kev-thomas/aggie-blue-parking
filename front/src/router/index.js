@@ -3,6 +3,10 @@ import VueRouter from 'vue-router'
 //import views here
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
+import Events from '../views/Events.vue'
+
+//stuff for checking routes
+import {decode} from "jsonwebtoken";
 
 Vue.use(VueRouter)
 //add routes here
@@ -29,8 +33,21 @@ const routes = [
     path: '/logout',
     redirect: '/login',
     beforeEnter: (to, from, next) => {
-      this.$session.destroy();
+      Vue.prototype.$session.destroy();
       next();
+    }
+  },
+  {
+    path: '/events',
+    name: 'Events',
+    component: Events,
+    beforeEnter: (to, from, next) => {
+      if(Vue.prototype.$session.getAll()) {
+        console.log(Vue.prototype.$session.getAll())
+        if(decode(Vue.prototype.$session.get('user'))['permissions'] === 1) {
+          next();
+        }
+      }
     }
   },
   {

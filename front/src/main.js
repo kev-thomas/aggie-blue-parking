@@ -12,6 +12,7 @@ import rules from './mixins/rules'
 Vue.mixin(rules)
 
 Vue.config.productionTip = false
+Vue.use(session)
 
 new Vue({
   vuetify,

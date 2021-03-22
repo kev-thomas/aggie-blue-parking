@@ -8,7 +8,7 @@
         temporary>
       <v-list nav>
         <v-list-item>Dashboard</v-list-item>
-        <v-list-item>Events</v-list-item>
+        <v-list-item @click="goToEvents">Events</v-list-item>
         <v-list-item>Account</v-list-item>
         <v-list-item bottom>
           <v-btn
@@ -37,7 +37,9 @@
     </v-app-bar>
     <v-main>
       <v-container fluid>
-        <router-view/>
+        <v-app>
+          <router-view/>
+        </v-app>
       </v-container>
     </v-main>
   </div>
@@ -64,6 +66,9 @@ export default {
   methods: {
     logout() {
       this.$router.replace('/logout');
+    },
+    goToEvents() {
+      this.$router.push('/events');
     }
   },
 
