@@ -43,3 +43,25 @@ class ParkingSpot(models.Model):
         return self.streetAddress
 
 
+class Event(models.Model):
+    title = models.CharField(max_length=250)
+    date = models.DateField()
+    time = models.TimeField()
+    streetAddress = models.CharField(max_length = 200)
+    city = models.CharField(max_length = 200, default = "Logan")
+    zip = models.CharField(max_length = 200, default = "84321")
+
+    def get_date(self):
+        return self.date
+
+    def get_title(self):
+        return self.title
+
+    def get_time(self):
+        return self.time
+
+    def get_address(self):
+        return self.streetAddress
+
+
+
