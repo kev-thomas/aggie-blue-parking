@@ -126,6 +126,46 @@ def login(request):
 
             return response
 
+@csrf_exempt
+def register(request):
+
+    if request.method == 'POST':
+
+        header = request.headers
+        #token = header['Authorization']
+        #bToken = token.encode('utf-8')
+        #payload = jwt.decode(bToken, "secret", algorithms=["HS256"])
+
+        print(request.body)
+
+        try:        
+            firstname = json.loads(request.body)['firstname']
+            lastname = json.loads(request.body)['lastname']
+            username = json.loads(request.body)['username']
+            email = json.loads(request.body)['email']
+            password = json.loads(request.body)['password']
+            renter = json.loads(request.body)['renter']
+            owner = json.loads(request.body)['owner']
+
+        except KeyError:
+            response = JsonResponse({'ERROR': 'MALFORMED REQUEST'}, 400)
+            return response
+        content = None
+
+        if User.objects.filter(username=username).exists():
+            return HttpResponse('Conflict', status=409)
+        else:
+            newUser = User(
+                firstname = firstname,
+                lastname = lastname,
+                username = username,
+                email = email,
+                password = password,
+                renter = renter,
+                owner = owner
+            )
+            return HttpResponse('OK', status=200)
+
 
 # Helper Functions, not handlers =================================================================================HELPERS===================================
 
