@@ -1,5 +1,6 @@
 <template>
   <v-card>
+    <!-- Can the ref be Lform for login? -->
     <v-form ref="form">
     <v-card-title>Login</v-card-title>
     <v-card-text>
