@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 //import views here
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
+import Register from '../views/Register.vue'
 import Events from '../views/Events.vue'
 
 //stuff for checking routes
@@ -36,6 +37,11 @@ const routes = [
       Vue.prototype.$session.destroy();
       next();
     }
+  },
+  {
+    path: '/register',
+    Name: 'Register',
+    component: Register,
   },
   {
     path: '/events',
