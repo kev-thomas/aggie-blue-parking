@@ -153,8 +153,8 @@ To make a request (POST):
 		"email": "email",
 		"username": "john", 
 		"password":"secret",
-		"renter": True / False;
-		"owner": True / False;
+		"renter": True / False,
+		"owner": True / False
 	}
 	
 Answer should look like this if registration successful:
