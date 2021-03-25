@@ -106,31 +106,21 @@ __Note: When making changes to the models, update the database by:__
 
 Each endpoint of the apis in the back end must be individually tested using the [Postman](https://www.postman.com/) app.
 
-### User Login Testing
+### User Login
 
-Temporary secret: `"secret"`
-
-algorithm: `"HS256"`
-
-Payload should look like this:
-
-	payload = {"username": "john", "password":"secret"}
-
-using PyJWT you can encode it like this: (note: I added a user with those credentials so you can actually test it)
-
-	encoded_jwt = jwt.encode({"username": "john", "password":"secret"}, "secret", algorithm="HS256")
-
+Make a `POST` request to `localhost:8000/genie/login`
 To make a request (POST):
 
 	header = {
 		Content-Type: application/json
-		Authentication: <JWT token here>
+	}
+
+	body ={
+
+		"username": "john", 
+		"password":"secret"
 	}
 	
-Leave the body empty
-
-Make a `POST` request to `localhost:8000/genie/login`
-
 Answer should look like this if auth successful:
 
 	code 200
@@ -138,10 +128,148 @@ Answer should look like this if auth successful:
 		token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im90aGVyIiwicGFzc3dvcmQiOiIxMjM0NSJ9.V0BXwNldF53fI8peQE_vkyK5kH44V5tCuzs557SfPp4"
 	}
 
+Temporary secret: `"secret"`
+
+algorithm: `"HS256"`
+
 If not successful:
 
 	code 401
 	Unauthorized
+
+### User registration
+
+Make a `POST` request to `localhost:8000/genie/register`
+To make a request (POST):
+
+	header = {
+		Content-Type: application/json
+	}
+
+	body ={
+
+		"firstname": "name",
+		"lastname": "lastname",
+		"email": "email",
+		"username": "john", 
+		"password":"secret",
+		"renter": True / False;
+		"owner": True / False;
+	}
+	
+Answer should look like this if registration successful:
+
+	code 200 OK
+
+If not successful:
+
+	code 409 Conflict
+
+### Get all events
+
+Make a `GET` request to `localhost:8000/genie/allevents`
+To make a request (GET):
+
+	header = {
+		Content-Type: application/json,
+		Authorization: <token from login answer here> 
+	}
+
+Answer should look like this if auth successful:
+
+	code 200
+	{
+    		"events": [
+        	{
+            		"title": "Fun Party at billy's",
+            		"date": "2021-03-26",
+            		"time": "18:00:00",
+            		"streetAddress": "123 W 342 S",
+            		"city": "Logan",
+            		"zip": "84321"
+        	},
+        	{
+            		"title": "organic food market",
+            		"date": "2021-04-05",
+            		"time": "18:00:00",
+            		"streetAddress": "231 W 423 N",
+            		"city": "Logan",
+            		"zip": "84321"
+        	},
+        	{
+            		"title": "Charity activity 1",
+            		"date": "2021-04-21",
+            		"time": "12:00:00",
+            		"streetAddress": "old main room 342",
+            		"city": "Logan",
+            		"zip": "84321"
+        	}
+    		],
+    		"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJwZXJtaXNzaW9ucyI6MSwiZXhwIjoxNjE2NzA1NTk0fQ.8WAqWW0x0tONsF8jIVhmEtvWkqE81k26K7d7TGOWcyI"
+	}
+Temporary secret: `"secret"`
+
+algorithm: `"HS256"`
+
+If not successful:
+
+	code 401
+	Unauthorized
+
+
+### Get all parking spots purchased by a user
+
+Make a `GET` request to `localhost:8000/genie/rentals`
+To make a request (GET):
+
+	header = {
+		Content-Type: application/json,
+		Authorization: <token from login answer here> 
+	}
+
+Answer should look like this if auth successful:
+
+	code 200
+	{
+    		"spots": [
+        	{
+            		"streetAddress": "3432 East",
+            		"city": "logan",
+            		"zip": "84321",
+            		"price": 4,
+            		"distance": 3,
+            		"available": false,
+            		"owner": [
+                		5
+            		],
+            		"renter": [
+                		6
+            		]
+        	},
+        	{
+            		"streetAddress": "423 yeet street",
+            		"city": "logan",
+            		"zip": "84321",
+            		"price": 5,
+            		"distance": 2,
+            		"available": false,
+            		"owner": [
+                		2
+            		],
+            		"renter": [
+                		6
+            		]
+        	}
+    		],
+    		"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJwZXJtaXNzaW9ucyI6MSwiZXhwIjoxNjE2NzA1NTk0fQ.8WAqWW0x0tONsF8jIVhmEtvWkqE81k26K7d7TGOWcyI"
+	}
+If not successful:
+
+	code 401
+	Unauthorized
+
+
+
 
 ## System testing instructions:
 

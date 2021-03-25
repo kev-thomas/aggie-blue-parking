@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.core import serializers
 from .models import ParkingSpot
 from .models import User
+from .models import Event
 import logging
 import jwt
 from django.middleware import csrf
@@ -82,15 +83,63 @@ def getUserRentals(request):
 
             return response
 
+# gets all the events if the token is valid
+def getAllEvents(request):
+    if request.method == 'GET':
+
+        try:
+
+            header = request.headers
+            token = header['Authorization']
+            bToken = token.encode('utf-8')
+ 
+            payload = jwt.decode(bToken, "secret", algorithms=["HS256"])
+
+            username = payload['username']
+            permissions = payload['permissions']
+            exp = payload['exp']
+
+            print(username)
+            print(permissions)
+
+            events_objects = Event.objects.order_by('date')
+            events_list = serializers.serialize('json', events_objects)
+            dict_events = json.loads(events_list)
+            print(dict_events)
+
+            # removes info about the database
+            events = []
+            dict_data = {}
+            for event in dict_events:
+                events.append(event['fields'])
+
+            dict_data['events'] = events
+            dict_data['token'] = token
+
+            response = JsonResponse(dict_data, status=200)
+
+            response['Access-Control-Allow-Origin'] = 'http://localhost:8080/'
+
+            return response
+
+        except Exception as e:
+
+            # maybe log the exception
+            print(e)
+
+            content = {'response': 'Unauthorized'}
+            response = JsonResponse(content, status=401)
+
+            response['Access-Control-Allow-Origin'] = 'http://localhost:8080/'
+
+            return response
+
 
 @csrf_exempt
 def login(request):
     if request.method == 'POST':
 
         header = request.headers
-        # token = header['Authorization']
-        # bToken = token.encode('utf-8')
-        # payload = jwt.decode(bToken, "secret", algorithms=["HS256"])
         try:
             username = json.loads(request.body)['username']
             password = json.loads(request.body)['password']
@@ -98,6 +147,8 @@ def login(request):
             response = JsonResponse({'ERROR': 'MALFORMED REQUEST'}, 400)
             return response
         content = None
+
+        print(username, password)
 
         if auth(username, password):
 
