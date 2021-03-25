@@ -2,7 +2,7 @@
   <v-card>
     <!-- Rform for register -->
     <v-form ref="Rform">
-      <v-card-title>AHOY, YEE WANNA REGISTER DO YEE</v-card-title>
+      <v-card-title>Create a new account</v-card-title>
       <v-card-text>
         <v-text-field
           v-model="user['firstname']"
@@ -45,13 +45,13 @@
         :disabled="!valid && loading"
         @click="register"
         :loading="loading"
-    >Login</v-btn>
+      >Create account</v-btn>
     </v-form>
   </v-card>
 </template>
 
 <script>
-// import parking from '../plugins/axios'
+import parking from '../plugins/axios'
 export default {
   name: "Register",
 
@@ -62,7 +62,9 @@ export default {
       lastname: '',
       username: '',
       email: '',
-      password: ''
+      password: '',
+      renter: 'true',
+      owner: 'false',
     },
     person: null,
     valid: true,
@@ -72,36 +74,16 @@ export default {
 
   methods: {
     async register() {
-      console.log("HOWDY PIRATE");
+      try {
+            let response = await parking.post('register', this.user);
+            // this.person = response.data;
+            console.log(response.data);
+          }
+          catch(error) {
+            console.log('OHNO');
+            console.log(error);
+          }
     }
   }
 }
 </script>
-
-<!--
-// if(this.$refs.form.validate()) {
-//         this.loading = true
-//         console.log(`posting to ${parking.defaults.baseURL}`)
-//         if(this.user) {
-//           try {
-//             let response = await parking.post('login', this.user);
-//             this.person = response.data;
-//           }
-//           catch(error) {
-//             console.log('wtf')
-//             console.log(error)
-//           }
-
-//         }
-//         console.log(this.person)
-//         if(!this.person.ERROR) {
-//           this.$session.start();
-//           this.$session.set('user', this.person.token);
-//           console.log(this.person)
-//           await this.$router.push('/')
-//         }
-//       }
-//       else {
-//         this.valid = false
-//       }
--->
