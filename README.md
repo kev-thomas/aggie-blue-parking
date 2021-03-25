@@ -179,7 +179,7 @@ Answer should look like this if auth successful:
 
 	code 200
 	{
-    		"events": [
+    	"events": [
         	{
             		"title": "Fun Party at billy's",
             		"date": "2021-03-26",
@@ -204,8 +204,8 @@ Answer should look like this if auth successful:
             		"city": "Logan",
             		"zip": "84321"
         	}
-    		],
-    		"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJwZXJtaXNzaW9ucyI6MSwiZXhwIjoxNjE2NzA1NTk0fQ.8WAqWW0x0tONsF8jIVhmEtvWkqE81k26K7d7TGOWcyI"
+    	],
+    	"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJwZXJtaXNzaW9ucyI6MSwiZXhwIjoxNjE2NzA1NTk0fQ.8WAqWW0x0tONsF8jIVhmEtvWkqE81k26K7d7TGOWcyI"
 	}
 Temporary secret: `"secret"`
 
@@ -231,7 +231,7 @@ Answer should look like this if auth successful:
 
 	code 200
 	{
-    		"spots": [
+    	"spots": [
         	{
             		"streetAddress": "3432 East",
             		"city": "logan",
@@ -260,8 +260,8 @@ Answer should look like this if auth successful:
                 		6
             		]
         	}
-    		],
-    		"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJwZXJtaXNzaW9ucyI6MSwiZXhwIjoxNjE2NzA1NTk0fQ.8WAqWW0x0tONsF8jIVhmEtvWkqE81k26K7d7TGOWcyI"
+    	],
+    	"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJwZXJtaXNzaW9ucyI6MSwiZXhwIjoxNjE2NzA1NTk0fQ.8WAqWW0x0tONsF8jIVhmEtvWkqE81k26K7d7TGOWcyI"
 	}
 If not successful:
 
