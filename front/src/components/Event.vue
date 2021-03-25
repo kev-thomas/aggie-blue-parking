@@ -5,10 +5,9 @@
   <v-dialog
     v-model="showDialog"
   >
-    <v-card>
-      <v-toolbar :color="pEvent.color">
-        <v-toolbar-title>
-          <span class="headline">{{pEvent.name}}</span>
+    <v-card color="grey lighten-4" flat>
+      <v-toolbar :color="pEvent.color" dark>
+        <v-toolbar-title v-html="pEvent.name">
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon>
@@ -16,7 +15,7 @@
         </v-btn>
       </v-toolbar>
       <v-card-text>
-        <span class="v-event">{{pEvent.details}}</span>
+        <span v-html="pEvent.details"></span>
       </v-card-text>
       <v-card-actions>
         <v-btn
@@ -33,7 +32,6 @@
         >
           Rent a space
         </v-btn>
-
       </v-card-actions>
     </v-card>
   </v-dialog>
