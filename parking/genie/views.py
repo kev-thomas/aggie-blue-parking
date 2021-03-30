@@ -157,7 +157,7 @@ def login(request):
             canRent = False
             canOwn = False
 
-            exp = datetime.now() + timedelta(hours=1)
+            exp = datetime.now() + timedelta(hours=7)
             responce_token = jwt.encode({'username': username, 'permissions': level, 'exp': exp}, 'secret',
                                         algorithm='HS256')
             content = {'token': responce_token}

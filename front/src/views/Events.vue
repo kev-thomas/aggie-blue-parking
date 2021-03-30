@@ -91,6 +91,7 @@
 
 <script>
 import Event from '@/components/Event'
+import parking from '../plugins/axios'
 export default {
 name: "Events",
 
@@ -99,8 +100,9 @@ name: "Events",
   },
 
   mounted() {
-    this.$refs.calendar.move(0)
-    this.$refs.calendar.checkChange()
+    this.$refs.calendar.move(0);
+    this.$refs.calendar.checkChange();
+    this.getEvents();
   },
 
   data: () => {
@@ -155,6 +157,24 @@ name: "Events",
   },
 
   methods: {
+    async getEvents() {
+      if(this.$session.exists()) {
+        try {
+          this.events = await parking.get('allevents', {
+            headers: {
+              Authorization: this.$session.get('user')
+            }
+          }).events;
+        }
+        catch(error) {
+          console.log('sum ting wong');
+        }
+      }
+      else {
+        this.$router.push('/login');
+      }
+    },
+
     showEvent(event) {
       console.log(event.event)
       this.selectedEvent = event.event;
