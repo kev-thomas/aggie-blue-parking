@@ -1,14 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-//import views here
-import Home from '../views/Home.vue'
-import Login from '../views/Login.vue'
-import Register from '../views/Register.vue'
-import Events from '../views/Events.vue'
-import List from '../views/List.vue'
-import Account from '../views/Account.vue'
 
-//stuff for checking routes
+// Used for checking routes
 import {decode} from "jsonwebtoken";
 
 Vue.use(VueRouter)
@@ -17,12 +10,12 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: () => import(/* webpackChunkName: home */ '../views/Home')
   },
   {
     path: '/login',
     name: 'Login',
-    component: Login,
+    component: () => import(/* webpackChunkName: login */ '../views/Login'),
     beforeEnter: (to, from, next) => {
       if(from.name === 'Login') {
         next(false)
@@ -43,12 +36,12 @@ const routes = [
   {
     path: '/register',
     Name: 'Register',
-    component: Register,
+    component: () => import(/* webpackChunkName: register */ '../views/Register')
   },
   {
     path: '/events',
     name: 'Events',
-    component: Events,
+    component: () => import(/* webpackChunkName: events */ '../views/Events'),
     beforeEnter: (to, from, next) => {
       if(Vue.prototype.$session.getAll()) {
         console.log(Vue.prototype.$session.getAll())
@@ -61,21 +54,13 @@ const routes = [
   {
     path: '/list',
     name: 'List',
-    component: List,
+    component: () => import(/* webpackChunkName: list */ '../views/List')
   },
   {
     path: '/account',
     name: 'Account',
-    component: Account,
+    component: () => import(/* webpackChunkName: account */ '../views/Account'),
   },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
 ]
 
 const router = new VueRouter({
