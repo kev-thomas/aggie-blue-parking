@@ -45,7 +45,7 @@
 // import Event from '@/components/Event'
 import parking from '../plugins/axios'
 export default {
-name: "List",
+name: "EventList",
 
   // components: {
   //   Event

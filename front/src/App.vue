@@ -7,11 +7,12 @@
         bottom
         temporary>
       <v-list nav>
-        <v-list-item>Dashboard</v-list-item>
+        <v-list-item @click="goToDash">Dashboard</v-list-item>
         <!-- TEMPORARY -->
         <v-list-item @click="goToEventList">Event list</v-list-item>
+        <!--  -->
         <v-list-item @click="goToEvents">Events</v-list-item>
-        <v-list-item>Account</v-list-item>
+        <v-list-item @click="goToAccount">Account</v-list-item>
         <v-list-item bottom>
           <v-btn
               @click="logout"
@@ -69,11 +70,17 @@ export default {
     logout() {
       this.$router.replace('/logout');
     },
+    goToDash() {
+      this.$router.push('/');
+    },
     goToEvents() {
       this.$router.push('/events');
     },
     goToEventList() {
       this.$router.push('/list');
+    },
+    goToAccount() {
+      this.$router.push('/account');
     }
   },
 
