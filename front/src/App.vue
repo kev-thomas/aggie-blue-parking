@@ -8,6 +8,8 @@
         temporary>
       <v-list nav>
         <v-list-item>Dashboard</v-list-item>
+        <!-- TEMPORARY -->
+        <v-list-item @click="goToEventList">Event list</v-list-item>
         <v-list-item @click="goToEvents">Events</v-list-item>
         <v-list-item>Account</v-list-item>
         <v-list-item bottom>
@@ -69,6 +71,9 @@ export default {
     },
     goToEvents() {
       this.$router.push('/events');
+    },
+    goToEventList() {
+      this.$router.push('/list');
     }
   },
 
