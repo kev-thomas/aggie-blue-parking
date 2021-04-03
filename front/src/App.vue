@@ -4,10 +4,9 @@
         app
         absolute
         v-model="appDrawer"
-        bottom
-        temporary>
+    >
       <v-list nav>
-        <v-list-item>Dashboard</v-list-item>
+        <v-list-item @click="goToHome">Dashboard</v-list-item>
         <v-list-item @click="goToEvents">Events</v-list-item>
         <v-list-item>Account</v-list-item>
         <v-list-item bottom>
@@ -65,10 +64,13 @@ export default {
 
   methods: {
     logout() {
-      this.$router.replace('/logout');
+      this.$router.replace('/logout', () => {});
     },
     goToEvents() {
-      this.$router.push('/events');
+      this.$router.push('/events', () => {});
+    },
+    goToHome() {
+      this.$router.push('/', () => {});
     }
   },
 

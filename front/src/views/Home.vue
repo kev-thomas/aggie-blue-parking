@@ -18,14 +18,14 @@ export default {
 
   beforeCreate() {
     if(!this.$session.exists()) {
-      this.$router.push('/login');
+      this.$router.push('/login', () => {});
     }
   },
 
   methods: {
     logout() {
       this.$session.destroy();
-      this.$router.push('/login');
+      this.$router.push('/login', () => {});
     }
   },
 

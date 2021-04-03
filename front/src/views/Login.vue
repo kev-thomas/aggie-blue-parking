@@ -68,7 +68,7 @@ export default {
           this.$session.start();
           this.$session.set('user', this.person.token);
           console.log(this.person)
-          await this.$router.push('/')
+          await this.$router.push('/', () => {})
         }
       }
       else {
