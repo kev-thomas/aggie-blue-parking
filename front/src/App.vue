@@ -8,7 +8,7 @@
       <v-list nav>
         <v-list-item @click="goToHome">Dashboard</v-list-item>
         <v-list-item @click="goToEvents">Events</v-list-item>
-        <v-list-item>Account</v-list-item>
+        <v-list-item @click="goToAccount">Account</v-list-item>
         <v-list-item bottom>
           <v-btn
               @click="logout"
@@ -28,6 +28,30 @@
       ></v-app-bar-nav-icon>
       <v-toolbar-title>{{this.title}}</v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-btn
+        icon
+        @click="login"
+        v-show="!this.$session.exists()"
+      >
+        <v-img
+          max-height="40"
+          max-width="34"
+          :src="require('./assets/images/login.png')">
+        </v-img>
+      </v-btn>
+
+      <v-btn
+          icon
+          @click="register"
+          v-show="!this.$session.exists()"
+      >
+        <v-img
+          max-height="40"
+          max-width="40"
+          :src="require('./assets/images/register.png')">
+        </v-img>
+      </v-btn>
+      
       <v-btn icon
            @click="logout"
            v-show="this.$session.exists()">
@@ -63,8 +87,17 @@ export default {
   },
 
   methods: {
+    login() {
+      this.$router.replace('/login');
+    },
     logout() {
       this.$router.replace('/logout', () => {});
+    },
+    register() {
+      this.$router.replace('/register');
+    },
+    goToDash() {
+      this.$router.push('/');
     },
     goToEvents() {
       this.$router.push('/events', () => {});

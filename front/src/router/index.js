@@ -5,6 +5,8 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Events from '../views/Events.vue'
+import List from '../views/List.vue'
+import Account from '../views/Account.vue'
 
 //stuff for checking routes
 import {decode} from "jsonwebtoken";
@@ -55,6 +57,16 @@ const routes = [
         }
       }
     }
+  },
+  {
+    path: '/list',
+    name: 'List',
+    component: List,
+  },
+  {
+    path: '/account',
+    name: 'Account',
+    component: Account,
   },
   {
     path: '/about',
