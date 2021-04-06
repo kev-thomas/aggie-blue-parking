@@ -96,14 +96,14 @@ export default {
     register() {
       this.$router.replace('/register');
     },
-    goToDash() {
-      this.$router.push('/');
-    },
     goToEvents() {
       this.$router.push('/events', () => {});
     },
     goToHome() {
       this.$router.push('/', () => {});
+    },
+    goToAccount() {
+      this.$router.push('/account', () => {});
     }
   },
 

@@ -1,21 +1,27 @@
 <template>
-  <v-row>
-      <v-col>
-          <UserInfo></UserInfo>
-      </v-col>
-      <v-col></v-col>
-  </v-row>
+    <v-container>
+      <v-row class="mb-2">
+          <v-col cols="sm">
+              <UserInfo></UserInfo>
+          </v-col>
+          <v-col cols="sm">
+              <EventList></EventList>
+          </v-col>
+      </v-row>
+    </v-container>
 </template>
 
 <script>
 // @ is an alias to /src
 import UserInfo from '@/components/UserInfo'
+import EventList from '@/components/EventList'
 
 export default {
   name: 'Home',
 
     components: {
       UserInfo,
+      EventList
     },
 
   data: () => ({

@@ -1,53 +1,54 @@
 <template>
-    <v-card>
-        <v-img
-            height="200px"
-            :src="require('../assets/images/night-sky.jpeg')"
-            blur="2px"
-        >
-            <v-toolbar
-                flat
-                color="rgba(0,0,0,0)"
+    <v-container>
+        <v-card>
+            <v-img
+                height="200px"
+                :src="require('../assets/images/night-sky.jpeg')"
             >
-                <v-toolbar-title class="title white--text pl-0">Welcome back, {{user.firstname}}!</v-toolbar-title>
-            </v-toolbar>
-        </v-img>
-        <v-card-actions>
-            <v-btn
-                text
-                @click="showEvents = !showEvents"
-            >
-                Your rentals
-            </v-btn>
-            <v-btn
-                text
-                @click="goToEvents"
-            >
-                Find an event
-            </v-btn>
-        </v-card-actions>
-        <v-card-text v-if="showEvents">
-            <div class="font-weight-bold ml-8 mb-2">
-                Today
-            </div>
-            <v-timeline
-                align-top
-                dense
-            >
-                <v-timeline-item
-                    v-for="event in userEvents"
-                    :key="new Date(event.start)"
-                    :color="event.color"
-                    small
+                <v-toolbar
+                    flat
+                    color="rgba(0,0,0,0)"
                 >
-                    <div>
-                        <div class="font-weight-normal"><strong>{{event.name}}</strong></div>
-                        <div>{{event.start}}</div>
-                    </div>
-                </v-timeline-item>
-            </v-timeline>
-        </v-card-text>
-    </v-card>
+                    <v-toolbar-title class="title white--text pl-0">Welcome back, {{user.firstname}}!</v-toolbar-title>
+                </v-toolbar>
+            </v-img>
+            <v-card-actions>
+                <v-btn
+                    text
+                    @click="showEvents = !showEvents"
+                >
+                    Your rentals
+                </v-btn>
+                <v-btn
+                    text
+                    @click="goToEvents"
+                >
+                    Find an event
+                </v-btn>
+            </v-card-actions>
+            <v-card-text v-if="showEvents">
+                <div class="font-weight-bold ml-8 mb-2">
+                    Today
+                </div>
+                <v-timeline
+                    align-top
+                    dense
+                >
+                    <v-timeline-item
+                        v-for="event in userEvents"
+                        :key="new Date(event.start)"
+                        :color="event.color"
+                        small
+                    >
+                        <div>
+                            <div class="font-weight-normal"><strong>{{event.name}}</strong></div>
+                            <div>{{event.start}}</div>
+                        </div>
+                    </v-timeline-item>
+                </v-timeline>
+            </v-card-text>
+        </v-card>
+    </v-container>
 </template>
 
 <script>

@@ -1,44 +1,40 @@
 <template>
-  <v-card
-    class="mx-auto"
-    max-width="300"
-    align-content="flex-start"
-    outlined
-  >
-    <v-list dense>
-      <v-subheader>Events coming up</v-subheader>
-      <v-list-item-group
-        v-model="selectedItem"
-        color="primary"
-      >
-        <v-list-item
-          v-for="(event, i) in events"
-          :key="i"
-        >
-          <v-list-item-content>
-            <v-list-item-title v-text="event.name"></v-list-item-title>
-            <v-list-item-subtitle>
-              Event start: {{ event.start }}
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-item-group>
-    </v-list>
-  </v-card>
-  <!-- <v-card>
-    <v-list>
-      <v-list-item v-for="event in events" :key="event">
-        <v-card>
-          <h3 class="title">{{ event.name }}</h3>
-        </v-card>
-      </v-list-item> -->
- 
+  <v-container>
+    <v-card
+      outlined
+    >
+      <v-card-text>
+        <v-list dense>
+          <v-subheader>Events coming up</v-subheader>
+            <v-list-item
+              v-for="(event, i) in events"
+              :key="i"
+            >
+              <v-list-item-content>
+                <v-list-item-title v-text="event.name"></v-list-item-title>
+                <v-list-item-subtitle>
+                  Event start: {{ event.start }}
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+        </v-list>
+      </v-card-text>
+    </v-card>
+    <!-- <v-card>
+      <v-list>
+        <v-list-item v-for="event in events" :key="event">
+          <v-card>
+            <h3 class="title">{{ event.name }}</h3>
+          </v-card>
+        </v-list-item> -->
 
 
 
-    
-    <!-- </v-list> -->
-  <!-- </v-card> -->
+
+
+      <!-- </v-list> -->
+    <!-- </v-card> -->
+  </v-container>
 </template>
 
 <script>
