@@ -134,39 +134,6 @@ def getAllEvents(request):
 
             return response
 
-def createEvent(request):
-    if request.method == 'POST':
-
-        header = request.headers
-
-        try:
-            title = json.loads(request.body)['title']
-            date = json.loads(request.body)['date']
-            time = json.loads(request.body)['time']
-            streetAddress = json.loads(request.body)['streetAddress']
-            city = json.loads(request.body)['city']
-            zip = json.loads(request.body)['zip']
-
-        except KeyError:
-            response = JsonResponse({'ERROR': 'MALFORMED REQUEST'}, 400)
-            return response
-        content = None
-
-        try:
-            newUser = User(
-                title = title,
-                date = date,
-                time = time,
-                streetAddress = streetAddress,
-                city = city,
-                zip = zip,
-            )
-            return HttpResponse('OK', status=200)
-
-        except KeyError:
-            response = JsonResponse({'ERROR': 'INTERNAL SERVER ERROR'}, 500)
-            return response
-
 
 
 
@@ -192,7 +159,7 @@ def login(request):
             canRent = False
             canOwn = False
 
-            exp = datetime.now() + timedelta(hours=1)
+            exp = datetime.now() + timedelta(hours=7)
             responce_token = jwt.encode({'username': username, 'permissions': level, 'exp': exp}, 'secret',
                                         algorithm='HS256')
             content = {'token': responce_token}
