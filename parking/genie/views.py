@@ -219,6 +219,42 @@ def register(request):
             )
             return HttpResponse('OK', status=200)
 
+@csrf_exempt
+def createParking(request):
+    if request.method == 'POST':
+        header = request.headers
+        token = header['Authorization']
+        bToken = token.encode('utf-8')
+
+        try:
+            payload = jwt.decode(bToken, "secret", algorithms=["HS256"])
+            username = payload['username']
+
+            owner = User.objects.get(username = username)
+            renter = None
+            streetAddress = json.loads(request.body)['streetAddress']
+            city = json.loads(request.body)['city']
+            zip = json.loads(request.body)['zip']
+            price = json.loads(request.body)['price']
+            available = True
+        except KeyError:
+            response = JsonResponse({'ERROR' : 'MALFORMED REQUEST'}, 400)
+            return response
+        content = None
+
+        newParking = ParkingSpot(
+            streetAddress = streetAddress,
+            city = city,
+            zip = zip,
+            price = price,
+            available = available
+        )
+        newParking.save()
+        newParking.owner.add(owner)
+        #newParking.renter.set(None)
+        newParking.save()
+        return HttpResponse('OK', status=200)
+
 
 # Helper Functions, not handlers =================================================================================HELPERS===================================
 

@@ -9,4 +9,5 @@ urlpatterns = [
         path('rentals', views.getUserRentals, name = "rentals"),
         path('register', views.register, name = "register"),
         path('allevents', views.getAllEvents, name = "allevents"),
+        path('listparking', views.createParking, name = "listparking"),
         ]
