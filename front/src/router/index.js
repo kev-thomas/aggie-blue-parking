@@ -52,11 +52,6 @@ const routes = [
     }
   },
   {
-    path: '/list',
-    name: 'List',
-    component: () => import(/* webpackChunkName: list */ '../views/List')
-  },
-  {
     path: '/account',
     name: 'Account',
     component: () => import(/* webpackChunkName: account */ '../views/Account'),

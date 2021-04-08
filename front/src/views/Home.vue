@@ -1,10 +1,11 @@
 <template>
   <div class="home">
-
+    <event-list></event-list>
   </div>
 </template>
 
 <script>
+import EventList from '../components/EventList.vue';
 // @ is an alias to /src
 
 export default {
@@ -30,6 +31,7 @@ export default {
   },
 
   components: {
+    EventList
   },
 
 }

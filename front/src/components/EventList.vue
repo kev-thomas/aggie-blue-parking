@@ -38,25 +38,11 @@
       </v-list-item-group>
     </v-list>
   </v-card>
-  <!-- <v-card>
-    <v-list>
-      <v-list-item v-for="event in events" :key="event">
-        <v-card>
-          <h3 class="title">{{ event.name }}</h3>
-        </v-card>
-      </v-list-item> -->
- 
-
-
-
-    
-    <!-- </v-list> -->
-  <!-- </v-card> -->
 </template>
 
 <script>
 // import Event from '@/components/Event'
-import parking from '../plugins/axios'
+// import parking from '../plugins/axios'
 export default {
 name: "EventList",
 
