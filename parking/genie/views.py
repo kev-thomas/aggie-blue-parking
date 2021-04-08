@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.core import serializers
 from .models import ParkingSpot
 from .models import User
-from .models import Event
+from .models import Event, Rentals
 import logging
 import jwt
 from django.middleware import csrf
@@ -12,6 +12,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from datetime import datetime, timedelta
+from django.shortcuts import get_object_or_404
 
 fmt = getattr(settings, 'LOG_FORMAT', None)
 lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
@@ -83,6 +84,191 @@ def getUserRentals(request):
 
             return response
 
+#get all available spots in an event
+def eventDetail(request, event_id):
+
+    if request.method == 'GET':
+
+        event = get_object_or_404(Event, pk=event_id)
+
+        try:
+            header = request.headers
+            token = header['Authorization']
+            bToken = token.encode('utf-8')
+            # maybe you can just get the event date from the front end, they would have it
+            # need to add more auth here
+            try:
+                payload = jwt.decode(bToken, "secret", algorithms=["HS256"])
+            except:
+
+                response = JsonResponse({'ERROR': 'FORBIDDEN'}, status=403)
+                return response
+
+            # get all the rentals on the same day as the event
+            rentals = Rentals.objects.filter(date = event.date)
+
+            parkingSpots = ParkingSpot.objects.order_by('-distance')
+
+            # do not add any spot that have a rental
+
+            validSpots = []
+            for spot in parkingSpots:
+
+
+                valid = False
+                if len(rentals) == 0:
+                    valid = True
+
+                for rental in rentals:
+
+                    rental_spot = rental.spot.all()[0].pk
+                    print(" checking ", rental_spot, " with " , spot.pk)
+
+                    if rental_spot == spot.pk:
+                        valid = False
+                        break
+                    else:
+                        valid = True 
+
+                if valid:
+                    
+                    spotData = {}
+                    spotData["address"] = spot.streetAddress
+                    spotData["city"] = spot.city
+                    spotData["zip"] = spot.zip
+                    spotData["price"] = spot.price
+                    spotData["id"] = spot.pk
+
+                    #json_spot = serializers.serialize('json', spot)
+                    #dict_spot = json.loads(json_spot)
+                    validSpots.append(spotData)
+            
+            dict_data = {}
+            details = {}
+
+            details["title"] = event.title
+            details["date"] = event.date
+            details["time"] = event.time
+            details["streetAddress"] = event.streetAddress
+            details["city"] = event.city
+            details["zip"] = event.zip
+            details["id"] = event.pk
+
+            dict_data["event_details"] = details
+            dict_data['available_spots'] = validSpots
+            dict_data['token'] = token
+
+            response = JsonResponse(dict_data, status=200)
+
+            response['Access-Control-Allow-Origin'] = 'http://localhost:8080/'
+
+            return response
+
+
+        except Exception as e:
+
+            print(e)
+
+            response = JsonResponse({'ERROR': 'MALFORMED REQUEST'}, status=400)
+            return response
+
+
+#get all rentals by user
+
+#create a rental
+@csrf_exempt
+def makeRental(request):
+
+    if request.method == 'POST':
+
+        try:
+            header = request.headers
+            token = header['Authorization']
+            bToken = token.encode('utf-8')
+
+            # need to add more auth here
+            try:
+                payload = jwt.decode(bToken, "secret", algorithms=["HS256"])
+            except:
+
+                response = JsonResponse({'ERROR': 'FORBIDDEN'}, status=403)
+                return response
+
+            eventId = json.loads(request.body)['eventId']
+            spotId = json.loads(request.body)['spotId']
+            userId = json.loads(request.body)['userId']
+
+
+            event = get_object_or_404(Event, pk=eventId)
+            spot = get_object_or_404(ParkingSpot, pk=spotId)
+            renter = get_object_or_404(User, pk=userId)
+
+            date = event.date
+
+            # check all rentals and make sure none have the same spot at the same event and same time 
+            try:
+                rentals = Rentals.objects.order_by('date')
+
+                i = 0
+                for rental in rentals:
+
+                    spot_rental = rentals[i].spot.all()[0].pk
+                    event_rental = rentals[i].event.all()[0].pk
+
+                    print("comparing:")
+                    print(str(rentals[i].date) + " and " + str(date) )
+                    print(str(event_rental) + " and " + str(eventId) )
+                    print(str(spot_rental) + " and " + str(spotId) )
+
+                    if rentals[i].date == date and str(spot_rental) == str(spotId):
+
+                        content = {'message': 'spot not availble'}
+                        responce = JsonResponse(content, status=409)
+                        return responce
+
+                    i += 1
+
+                # check money
+                if(renter.money >= spot.price):
+
+                    print("debiting $" + str(spot.price))
+                    renter.money = renter.money - spot.price
+                    renter.save()
+                else:
+
+                    content = {'message': 'not enough money'}
+                    responce = JsonResponse(content, status=409)
+                    return responce
+
+
+
+            # if it cannot get any rentals that means it's the first 
+            except Exception as e:
+
+                print("PRINTING EXCEPTION:", e)
+
+
+            newRental = Rentals(
+                date = date
+                )
+            
+            newRental.save()
+            newRental.spot.set(spotId)
+            newRental.renter.set(userId)
+            newRental.event.set(eventId)
+
+            response = JsonResponse({'message': 'success', 'token': token}, status=200)
+            return response
+
+
+        except Exception as e:
+
+            print("EXCEPTION:", e)
+            response = JsonResponse({'ERROR': 'MALFORMED REQUEST'}, status=400)
+            return response
+
+
+
 # gets all the events if the token is valid
 def getAllEvents(request):
     if request.method == 'GET':
@@ -111,7 +297,7 @@ def getAllEvents(request):
             events = []
             dict_data = {}
             for event in dict_events:
-                events.append(event['fields'])
+                events.append(event)
 
             dict_data['events'] = events
             dict_data['token'] = token
@@ -215,6 +401,7 @@ def register(request):
                 renter = renter,
                 owner = owner
             )
+            newUser.save()
             return HttpResponse('OK', status=200)
 
 

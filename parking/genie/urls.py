@@ -9,4 +9,6 @@ urlpatterns = [
         path('rentals', views.getUserRentals, name = "rentals"),
         path('register', views.register, name = "register"),
         path('allevents', views.getAllEvents, name = "allevents"),
+        path('event/<int:event_id>', views.eventDetail, name='eventDetail'),
+        path('makeRental', views.makeRental, name = "makeRental"),
         ]

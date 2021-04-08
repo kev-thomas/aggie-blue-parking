@@ -268,6 +268,109 @@ If not successful:
 	code 401
 	Unauthorized
 
+### Get details of an event and available parking spots 
+
+Make a `GET` request to `http://localhost:8000/genie/event/<event id>`
+To make a request (GET):
+
+	header = {
+		Content-Type: application/json,
+		Authorization: <token from login answer here> 
+	}
+
+Answer should look like this if auth successful:
+
+	code 200
+	{
+    	"event_details": {
+        	"title": "FootballGame",
+        	"date": "2021-05-19",
+        	"time": "16:14:20",
+        	"streetAddress": "Stadium",
+        	"city": "Logan",
+        	"zip": "84321",
+        	"id": 5
+    	},
+    	"available_spots": [
+        	{
+            	"address": "next to dennys",
+            	"city": "logan",
+            	"zip": "84321",
+            	"price": 5,
+            	"id": 5
+        },
+        {
+            	"address": "4563 blvd",
+            	"city": "logan",
+            	"zip": "84321",
+            	"price": 6,
+            	"id": 3
+        	},
+        	{
+            	"address": "3432 East",
+            	"city": "logan",
+            	"zip": "84321",
+            	"price": 4,
+            	"id": 6
+        },
+        {
+            	"address": "123 E 456 N",
+            	"city": "logan",
+            	"zip": "84321",
+            	"price": 6,
+            	"id": 1
+        },
+        {
+            	"address": "423 yeet street",
+            	"city": "logan",
+            	"zip": "84321",
+            	"price": 5,
+            	"id": 7
+        }
+    	],
+    		"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJwZXJtaXNzaW9ucyI6MSwiZXhwIjoxNjE3OTIyOTc1fQ.xf6WSVlODnB7D0eQbllCsn9gvOZ0pQJbrbur2qWaDaY"
+	}
+If not successful:
+
+	code 401
+	Unauthorized
+
+### Rent a spot:
+
+Make a `POST` request to `http://localhost:8000/genie/makeRental`
+To make a request (GET):
+
+	header = {
+		Content-Type: application/json,
+		Authorization: <token from login answer here> 
+	}
+
+	body = {
+    		eventId": "id",
+    		"spotId": "id",
+    		"userId": "id"
+	}
+
+Answer should look like this if auth successful:
+
+	code 200
+	{
+    		"message": "success",
+		"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJwZXJtaXNzaW9ucyI6MSwiZXhwIjoxNjE3OTIyOTc1fQ.xf6WSVlODnB7D0eQbllCsn9gvOZ0pQJbrbur2qWaDaY"
+
+	}
+
+If not successful:
+
+	code 401
+	Unauthorized
+
+If not enough money:
+
+	code 409
+	{
+    		"message": "not enough money"
+	}
 
 
 
