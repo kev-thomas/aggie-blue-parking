@@ -5,9 +5,11 @@ import router from './router'
 import session from './plugins/session'
 import token from './plugins/jwt'
 import parking from './plugins/axios'
+import NavBar from './components/NavBar'
 import EventList from './components/EventList'
 
 Vue.component('app-message', EventList)
+Vue.component('navbar', NavBar)
 
 //MIXINS
 import rules from './mixins/rules'
