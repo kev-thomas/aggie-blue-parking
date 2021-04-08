@@ -11,4 +11,5 @@ urlpatterns = [
         path('allevents', views.getAllEvents, name = "allevents"),
         path('event/<int:event_id>', views.eventDetail, name='eventDetail'),
         path('makeRental', views.makeRental, name = "makeRental"),
+        path('createParking', views.createParking, name = "createParking"),
         ]

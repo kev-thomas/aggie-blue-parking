@@ -175,35 +175,54 @@ Make a `GET` request to `localhost:8000/genie/allevents`
 Answer should look like this if auth successful:
 
 	code 200
-	{
-    	"events": [
-        	{
-            		"title": "Fun Party at billy's",
-            		"date": "2021-03-26",
-            		"time": "18:00:00",
-            		"streetAddress": "123 W 342 S",
-            		"city": "Logan",
-            		"zip": "84321"
-        	},
-        	{
-            		"title": "organic food market",
-            		"date": "2021-04-05",
-            		"time": "18:00:00",
-            		"streetAddress": "231 W 423 N",
-            		"city": "Logan",
-            		"zip": "84321"
-        	},
-        	{
-            		"title": "Charity activity 1",
-            		"date": "2021-04-21",
-            		"time": "12:00:00",
-            		"streetAddress": "old main room 342",
-            		"city": "Logan",
-            		"zip": "84321"
-        	}
-    	],
-    	"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJwZXJtaXNzaW9ucyI6MSwiZXhwIjoxNjE2NzA1NTk0fQ.8WAqWW0x0tONsF8jIVhmEtvWkqE81k26K7d7TGOWcyI"
-	}
+
+`pk` is the id
+
+```
+{
+    "events": [
+        {
+            "model": "genie.event",
+            "pk": 1,
+            "fields": {
+                "title": "Fun Party at billy's",
+                "date": "2021-03-26",
+                "time": "18:00:00",
+                "streetAddress": "123 W 342 S",
+                "city": "Logan",
+                "zip": "84321"
+            }
+        },
+        {
+            "model": "genie.event",
+            "pk": 3,
+            "fields": {
+                "title": "organic food market",
+                "date": "2021-04-05",
+                "time": "18:00:00",
+                "streetAddress": "231 W 423 N",
+                "city": "Logan",
+                "zip": "84321"
+            }
+        },
+        {
+            "model": "genie.event",
+            "pk": 2,
+            "fields": {
+                "title": "Charity activity 1",
+                "date": "2021-04-21",
+                "time": "12:00:00",
+                "streetAddress": "old main room 342",
+                "city": "Logan",
+                "zip": "84321"
+            }
+        }
+    ],
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJwZXJtaXNzaW9ucyI6MSwiZXhwIjoxNjE3OTIyOTc1fQ.xf6WSVlODnB7D0eQbllCsn9gvOZ0pQJbrbur2qWaDaY"
+}
+
+```
+
 Temporary secret: `"secret"`
 
 algorithm: `"HS256"`
@@ -349,7 +368,7 @@ Answer should look like this if auth successful:
 
 	code 200
 	{
-    		"message": "success",
+		"message": "success",
 		"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJwZXJtaXNzaW9ucyI6MSwiZXhwIjoxNjE3OTIyOTc1fQ.xf6WSVlODnB7D0eQbllCsn9gvOZ0pQJbrbur2qWaDaY"
 
 	}
@@ -366,7 +385,21 @@ If not enough money:
     		"message": "not enough money"
 	}
 
+### create parking request
 
+Make a `POST` to `http://localhost:8000/genie/createParking`
+
+	header= {
+     		"Content-Type": "application/json",
+     		"Authorization": <insert token from login answer here>,
+	}
+
+	body= {
+     		"streetAddress": "a street",
+    		"city": "Logan",
+    		"zip": 84341,
+    		"price": 10
+	}
 
 ## System testing instructions:
 
