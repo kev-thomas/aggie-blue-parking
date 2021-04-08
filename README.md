@@ -109,7 +109,6 @@ Each endpoint of the apis in the back end must be individually tested using the 
 ### User Login
 
 Make a `POST` request to `localhost:8000/genie/login`
-To make a request (POST):
 
 	header = {
 		Content-Type: application/json
@@ -140,7 +139,6 @@ If not successful:
 ### User registration
 
 Make a `POST` request to `localhost:8000/genie/register`
-To make a request (POST):
 
 	header = {
 		Content-Type: application/json
@@ -168,7 +166,6 @@ If not successful:
 ### Get all events
 
 Make a `GET` request to `localhost:8000/genie/allevents`
-To make a request (GET):
 
 	header = {
 		Content-Type: application/json,
@@ -220,7 +217,6 @@ If not successful:
 ### Get all parking spots purchased by a user
 
 Make a `GET` request to `localhost:8000/genie/rentals`
-To make a request (GET):
 
 	header = {
 		Content-Type: application/json,
@@ -271,7 +267,6 @@ If not successful:
 ### Get details of an event and available parking spots 
 
 Make a `GET` request to `http://localhost:8000/genie/event/<event id>`
-To make a request (GET):
 
 	header = {
 		Content-Type: application/json,
@@ -338,7 +333,6 @@ If not successful:
 ### Rent a spot:
 
 Make a `POST` request to `http://localhost:8000/genie/makeRental`
-To make a request (GET):
 
 	header = {
 		Content-Type: application/json,
