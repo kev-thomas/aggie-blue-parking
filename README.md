@@ -109,7 +109,6 @@ Each endpoint of the apis in the back end must be individually tested using the 
 ### User Login
 
 Make a `POST` request to `localhost:8000/genie/login`
-To make a request (POST):
 
 	header = {
 		Content-Type: application/json
@@ -140,7 +139,6 @@ If not successful:
 ### User registration
 
 Make a `POST` request to `localhost:8000/genie/register`
-To make a request (POST):
 
 	header = {
 		Content-Type: application/json
@@ -168,7 +166,6 @@ If not successful:
 ### Get all events
 
 Make a `GET` request to `localhost:8000/genie/allevents`
-To make a request (GET):
 
 	header = {
 		Content-Type: application/json,
@@ -178,35 +175,54 @@ To make a request (GET):
 Answer should look like this if auth successful:
 
 	code 200
-	{
-    	"events": [
-        	{
-            		"title": "Fun Party at billy's",
-            		"date": "2021-03-26",
-            		"time": "18:00:00",
-            		"streetAddress": "123 W 342 S",
-            		"city": "Logan",
-            		"zip": "84321"
-        	},
-        	{
-            		"title": "organic food market",
-            		"date": "2021-04-05",
-            		"time": "18:00:00",
-            		"streetAddress": "231 W 423 N",
-            		"city": "Logan",
-            		"zip": "84321"
-        	},
-        	{
-            		"title": "Charity activity 1",
-            		"date": "2021-04-21",
-            		"time": "12:00:00",
-            		"streetAddress": "old main room 342",
-            		"city": "Logan",
-            		"zip": "84321"
-        	}
-    	],
-    	"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJwZXJtaXNzaW9ucyI6MSwiZXhwIjoxNjE2NzA1NTk0fQ.8WAqWW0x0tONsF8jIVhmEtvWkqE81k26K7d7TGOWcyI"
-	}
+
+`pk` is the id
+
+```
+{
+    "events": [
+        {
+            "model": "genie.event",
+            "pk": 1,
+            "fields": {
+                "title": "Fun Party at billy's",
+                "date": "2021-03-26",
+                "time": "18:00:00",
+                "streetAddress": "123 W 342 S",
+                "city": "Logan",
+                "zip": "84321"
+            }
+        },
+        {
+            "model": "genie.event",
+            "pk": 3,
+            "fields": {
+                "title": "organic food market",
+                "date": "2021-04-05",
+                "time": "18:00:00",
+                "streetAddress": "231 W 423 N",
+                "city": "Logan",
+                "zip": "84321"
+            }
+        },
+        {
+            "model": "genie.event",
+            "pk": 2,
+            "fields": {
+                "title": "Charity activity 1",
+                "date": "2021-04-21",
+                "time": "12:00:00",
+                "streetAddress": "old main room 342",
+                "city": "Logan",
+                "zip": "84321"
+            }
+        }
+    ],
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJwZXJtaXNzaW9ucyI6MSwiZXhwIjoxNjE3OTIyOTc1fQ.xf6WSVlODnB7D0eQbllCsn9gvOZ0pQJbrbur2qWaDaY"
+}
+
+```
+
 Temporary secret: `"secret"`
 
 algorithm: `"HS256"`
@@ -220,7 +236,6 @@ If not successful:
 ### Get all parking spots purchased by a user
 
 Make a `GET` request to `localhost:8000/genie/rentals`
-To make a request (GET):
 
 	header = {
 		Content-Type: application/json,
@@ -268,8 +283,123 @@ If not successful:
 	code 401
 	Unauthorized
 
+### Get details of an event and available parking spots 
 
+Make a `GET` request to `http://localhost:8000/genie/event/<event id>`
 
+	header = {
+		Content-Type: application/json,
+		Authorization: <token from login answer here> 
+	}
+
+Answer should look like this if auth successful:
+
+	code 200
+	{
+    	"event_details": {
+        	"title": "FootballGame",
+        	"date": "2021-05-19",
+        	"time": "16:14:20",
+        	"streetAddress": "Stadium",
+        	"city": "Logan",
+        	"zip": "84321",
+        	"id": 5
+    	},
+    	"available_spots": [
+        	{
+            	"address": "next to dennys",
+            	"city": "logan",
+            	"zip": "84321",
+            	"price": 5,
+            	"id": 5
+        },
+        {
+            	"address": "4563 blvd",
+            	"city": "logan",
+            	"zip": "84321",
+            	"price": 6,
+            	"id": 3
+        	},
+        	{
+            	"address": "3432 East",
+            	"city": "logan",
+            	"zip": "84321",
+            	"price": 4,
+            	"id": 6
+        },
+        {
+            	"address": "123 E 456 N",
+            	"city": "logan",
+            	"zip": "84321",
+            	"price": 6,
+            	"id": 1
+        },
+        {
+            	"address": "423 yeet street",
+            	"city": "logan",
+            	"zip": "84321",
+            	"price": 5,
+            	"id": 7
+        }
+    	],
+    		"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJwZXJtaXNzaW9ucyI6MSwiZXhwIjoxNjE3OTIyOTc1fQ.xf6WSVlODnB7D0eQbllCsn9gvOZ0pQJbrbur2qWaDaY"
+	}
+If not successful:
+
+	code 401
+	Unauthorized
+
+### Rent a spot:
+
+Make a `POST` request to `http://localhost:8000/genie/makeRental`
+
+	header = {
+		Content-Type: application/json,
+		Authorization: <token from login answer here> 
+	}
+
+	body = {
+    		eventId": "id",
+    		"spotId": "id",
+    		"userId": "id"
+	}
+
+Answer should look like this if auth successful:
+
+	code 200
+	{
+		"message": "success",
+		"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJwZXJtaXNzaW9ucyI6MSwiZXhwIjoxNjE3OTIyOTc1fQ.xf6WSVlODnB7D0eQbllCsn9gvOZ0pQJbrbur2qWaDaY"
+
+	}
+
+If not successful:
+
+	code 401
+	Unauthorized
+
+If not enough money:
+
+	code 409
+	{
+    		"message": "not enough money"
+	}
+
+### create parking request
+
+Make a `POST` to `http://localhost:8000/genie/createParking`
+
+	header= {
+     		"Content-Type": "application/json",
+     		"Authorization": <insert token from login answer here>,
+	}
+
+	body= {
+     		"streetAddress": "a street",
+    		"city": "Logan",
+    		"zip": 84341,
+    		"price": 10
+	}
 
 ## System testing instructions:
 

@@ -10,6 +10,7 @@ class User(models.Model):
     password = models.CharField(max_length=50)
     renter = models.BooleanField(default=True)
     owner = models.BooleanField(default=False)
+    money = models.IntegerField(default = 100)
 
     def __str__(self):
         return self.username
@@ -28,7 +29,6 @@ class User(models.Model):
 class ParkingSpot(models.Model):
 
     owner = models.ManyToManyField(User, related_name='currentOwner')
-    renter = models.ManyToManyField(User, related_name='currentRenter')
     streetAddress = models.CharField(max_length = 200, default = "none")
     city = models.CharField(max_length = 200, default = "logan")
     zip = models.CharField(max_length = 200, default="84321")
@@ -62,3 +62,22 @@ class Event(models.Model):
 
     def get_address(self):
         return self.streetAddress
+
+    def __str__(self):
+
+        string = self.title + "-id-" + str(self.pk)
+        return string
+
+class Rentals(models.Model):
+
+    date = models.DateField()
+    renter = models.ManyToManyField(User, related_name='currentRenter')
+    spot = models.ManyToManyField(ParkingSpot, related_name='linkedSpot')
+    event = models.ManyToManyField(Event, related_name='bookedEvent')
+
+    def __str__(self):
+
+        message = str(self.spot.all()[0]) + "-on-" + str(self.date) + "-by-" + str(self.renter.all()[0])
+        return message
+
+
