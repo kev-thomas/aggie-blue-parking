@@ -1,3 +1,16 @@
+// Vue.component('EventList', {
+//   data: function() {
+//     return {
+
+//     }
+//   }
+// });
+
+// new Vue({
+//   el: '#app',
+//   data
+// })
+
 <template>
   <v-card
     class="mx-auto"
@@ -53,28 +66,6 @@ name: "EventList",
 
   data: () => {
     return {
-      showDetails: false,
-      focus: '',
-      type: 'month',
-      types: {
-        month: "Month",
-        week: "Week",
-        day: "Day"
-      },
-      months: [
-          'January',
-          'February',
-          'March',
-          'April',
-          'May',
-          'June',
-          'July',
-          'August',
-          'September',
-          'October',
-          'November',
-          'December'
-      ],
       events: [
         {
           name: 'Day on the Quad',
@@ -102,23 +93,23 @@ name: "EventList",
   },
 
   methods: {
-    async getEvents() {
-      if(this.$session.exists()) {
-        try {
-          this.events = await parking.get('allevents', {
-            headers: {
-              Authorization: this.$session.get('user')
-            }
-          }).events;
-        }
-        catch(error) {
-          console.error('OHNO');
-        }
-      }
-      else {
-        this.$router.push('/login');
-      }
-    },
+    // async getEvents() {
+    //   if(this.$session.exists()) {
+    //     try {
+    //       this.events = await parking.get('allevents', {
+    //         headers: {
+    //           Authorization: this.$session.get('user')
+    //         }
+    //       }).events;
+    //     }
+    //     catch(error) {
+    //       console.error('OHNO');
+    //     }
+    //   }
+    //   else {
+    //     this.$router.push('/login');
+    //   }
+    // },
   }
 }
 </script>
