@@ -1,6 +1,6 @@
 import Vue from 'vue'
+import vuetify from '@/plugins/vuetify';
 import App from './App.vue'
-import vuetify from './plugins/vuetify';
 import router from './router'
 import session from './plugins/session'
 import token from './plugins/jwt'
