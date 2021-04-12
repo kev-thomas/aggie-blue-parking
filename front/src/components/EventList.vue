@@ -1,51 +1,56 @@
 <template>
   <v-container>
-    <v-card
-      outlined
-    >
+    <v-card>
+      <v-toolbar
+          flat
+          color="light-blue"
+      >
+        <v-toolbar-title class="title white--text pl-0">Events coming up: </v-toolbar-title>
+      </v-toolbar>
       <v-card-text>
-        <v-list dense>
-          <v-subheader>Events coming up</v-subheader>
+        <v-list
+            two-line
+        >
             <v-list-item
-              v-for="(event, i) in events"
-              :key="i"
+              v-for="event in events"
+              :key="event.title"
             >
+              <v-list-item-avatar>
+                <v-icon>mdi-calendar-outline</v-icon>
+              </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title v-text="event.name"></v-list-item-title>
                 <v-list-item-subtitle>
                   Event start: {{ event.start }}
                 </v-list-item-subtitle>
               </v-list-item-content>
+              <v-list-item-action>
+                <v-btn icon @click="showEvent(event)">
+                  <v-icon>mdi-information-outline</v-icon>
+                </v-btn>
+              </v-list-item-action>
+              <Event
+                  v-bind:p-event="selectedEvent"
+                  v-bind:show-details="showDetails"
+                  @close="showDetails = false"
+              >
+              </Event>
             </v-list-item>
         </v-list>
       </v-card-text>
     </v-card>
-    <!-- <v-card>
-      <v-list>
-        <v-list-item v-for="event in events" :key="event">
-          <v-card>
-            <h3 class="title">{{ event.name }}</h3>
-          </v-card>
-        </v-list-item> -->
-
-
-
-
-
-      <!-- </v-list> -->
-    <!-- </v-card> -->
   </v-container>
 </template>
 
 <script>
-// import Event from '@/components/Event'
+import Event from '@/components/Event'
 import parking from '../plugins/axios'
 export default {
 name: "EventList",
 
-  // components: {
-  //   Event
-  // },
+  components: {
+    Event
+  },
 
   data: () => {
     return {
@@ -101,19 +106,28 @@ name: "EventList",
     async getEvents() {
       if(this.$session.exists()) {
         try {
-          this.events = await parking.get('allevents', {
+          let newEvents = await parking.get('allevents', {
             headers: {
               Authorization: this.$session.get('user')
             }
-          }).events;
+          });
+          this.events = newEvents.data
+
         }
         catch(error) {
-          console.error('OHNO');
+          console.error(error)
+          console.log('sum ting wong');
         }
       }
       else {
         this.$router.push('/login');
       }
+    },
+
+    showEvent(event) {
+      console.log(event)
+      this.selectedEvent = event;
+      this.showDetails = true;
     },
   }
 }

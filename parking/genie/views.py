@@ -291,18 +291,20 @@ def getAllEvents(request):
             events_objects = Event.objects.order_by('date')
             events_list = serializers.serialize('json', events_objects)
             dict_events = json.loads(events_list)
-            print(dict_events)
 
             # removes info about the database
             events = []
             dict_data = {}
+            # Format response data to match front-end requirements
             for event in dict_events:
-                events.append(event)
-
-            dict_data['events'] = events
-            dict_data['token'] = token
-
-            response = JsonResponse(dict_data, status=200)
+                dict_data = event["fields"]
+                dict_data["name"] = dict_data["title"]
+                dict_data["start"] = dict_data["date"] + " " + dict_data["time"]
+                end_time = str(int(dict_data["time"][0:1]) + 10) + dict_data["time"][2:]
+                dict_data["end"] = dict_data["date"] + " " + (dict_data["time"])
+                events.append(dict_data)
+            print(events)
+            response = JsonResponse(events, status=200, safe=False)
 
             response['Access-Control-Allow-Origin'] = 'http://localhost:8080/'
 

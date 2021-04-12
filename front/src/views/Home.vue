@@ -1,10 +1,10 @@
 <template>
-    <v-container>
-      <v-row class="mb-2">
-          <v-col cols="sm">
+    <v-container fluid>
+      <v-row no-gutters>
+          <v-col no-gutters cols="6" rows="4">
               <UserInfo></UserInfo>
           </v-col>
-          <v-col cols="sm">
+          <v-col no-gutters cols="6" rows="4">
               <EventList></EventList>
           </v-col>
       </v-row>
