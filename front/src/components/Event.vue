@@ -1,11 +1,15 @@
 <template
     v-bind:pEvent="pEvent"
     v-bind:showDetails="showDetails"
+    :key="pEvent.streetAddress"
 >
   <v-dialog
     v-model="showDialog"
+    max-width="900"
   >
-    <v-card color="grey lighten-4" flat>
+    <v-card color="grey lighten-4"
+            flat
+    >
       <v-toolbar :color="pEvent.color" dark>
         <v-toolbar-title v-html="pEvent.name">
         </v-toolbar-title>
@@ -16,6 +20,13 @@
       </v-toolbar>
       <v-card-text>
         <span v-html="pEvent.details"></span>
+        <iframe
+          width="800"
+          height="400"
+          style="border: 0;"
+          :src="mapsQuery"
+        >
+        </iframe>
       </v-card-text>
       <v-card-actions>
         <v-btn
@@ -51,6 +62,16 @@ name: "Event",
 
   data: () => {
     return {
+      mapsUrl: 'https://www.google.com/maps/embed/v1/place?key=AIzaSyDxSFPq0nxltyh3jq0xhfqgzzuT1LPL6aI&q='
+    }
+  },
+
+  watch: {
+    showDialog: function(value) {
+      if(value) {
+        this.mapsQuery =  this.pEvent["streetAddress"].replaceAll(' ', '+') + ',' +
+            this.pEvent["city"] + ",UT,84321&zoom=14&center=41.7420,-111.8230";
+      }
     }
   },
 
@@ -61,6 +82,15 @@ name: "Event",
       },
       set(value) {
         this.$emit('close', value)
+      }
+    },
+    mapsQuery: {
+      get() {
+        return this.mapsUrl;
+      },
+      set(value) {
+        this.mapsUrl = this.mapsUrl + value;
+        console.log(this.mapsUrl)
       }
     }
   }
