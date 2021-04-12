@@ -56,15 +56,14 @@ export default {
   name: "Register",
 
   data: () => ({
-    // !Why does this fail if user is changed??!
     user: {
       firstname: '',
       lastname: '',
       username: '',
       email: '',
       password: '',
-      renter: 'true',
-      owner: 'false',
+      renter: 'True',
+      owner: 'False',
     },
     person: null,
     valid: true,
@@ -75,14 +74,18 @@ export default {
   methods: {
     async register() {
       try {
-            let response = await parking.post('register', this.user);
-            // this.person = response.data;
-            console.log(response.data);
-          }
-          catch(error) {
-            console.log('OHNO');
-            console.log(error);
-          }
+        let response = await parking.post('register', this.user);
+        this.person = response.data;
+        console.log(response.data);
+      }
+      catch(error) {
+        window.alert("There was an error when creating your account, please try again.");
+        console.log(error);
+        return;
+      }
+
+      window.alert("Account has been created!");
+      this.$router.push('/login', () => {});
     }
   }
 }
