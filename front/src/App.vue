@@ -2,13 +2,31 @@
   <div id="app">
     <v-navigation-drawer
         app
-        absolute
+        bottom
         v-model="appDrawer"
     >
       <v-list nav>
-        <v-list-item @click="goToHome">Dashboard</v-list-item>
-        <v-list-item @click="goToEvents">Events</v-list-item>
-        <v-list-item @click="goToAccount">Account</v-list-item>
+        <v-list-item @click="goToHome">
+          <v-list-item-avatar>
+            <v-icon>
+              mdi-view-dashboard
+            </v-icon>
+          </v-list-item-avatar>
+          Dashboard
+        </v-list-item>
+        <v-list-item @click="goToEvents"><v-list-item-avatar>
+          <v-icon>
+            mdi-calendar
+          </v-icon>
+        </v-list-item-avatar>
+          Events</v-list-item>
+        <v-list-item @click="goToAccount">
+          <v-list-item-avatar>
+            <v-icon>
+              mdi-account
+            </v-icon>
+          </v-list-item-avatar>
+          Account</v-list-item>
         <v-list-item bottom>
           <v-btn
               @click="logout"

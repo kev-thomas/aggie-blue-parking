@@ -5,8 +5,8 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Events from '../views/Events.vue'
-import List from '../views/List.vue'
 import Account from '../views/Account.vue'
+// import UserInfo from '../components/userInfo.vue'
 
 //stuff for checking routes
 import {decode} from "jsonwebtoken";
@@ -16,8 +16,14 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
+    redirect: '/dashboard',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Home,
   },
   {
     path: '/login',
@@ -57,11 +63,6 @@ const routes = [
         }
       }
     }
-  },
-  {
-    path: '/list',
-    name: 'List',
-    component: List,
   },
   {
     path: '/account',

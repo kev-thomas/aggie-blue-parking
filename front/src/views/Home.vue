@@ -2,7 +2,7 @@
     <v-container fluid>
       <v-row no-gutters>
           <v-col no-gutters cols="6" rows="4">
-              <UserInfo></UserInfo>
+              <UserInfo v-bind:user-info="getUser()"></UserInfo>
           </v-col>
           <v-col no-gutters cols="6" rows="4">
               <EventList></EventList>
@@ -40,6 +40,10 @@ export default {
     logout() {
       this.$session.destroy();
       this.$router.push('/login', () => {});
+    },
+    getUser() {
+      console.log(this.$session.get('user-info'))
+      return this.$session.get('user-info')
     }
   },
 

@@ -7,7 +7,7 @@ let encodeOptions = {
 }
 
 let decodeOptions = {
-    issuer: 'NeuralCog'
+    // issuer: 'NeuralCog'
 }
 
 let key = "secret"
@@ -21,16 +21,18 @@ const decode = function(token) {
     try {
         decoded = jwt.verify(token, key, decodeOptions, function(error, payload) {
             if(error) {
+                console.log(error)
                 throw error;
             }
             else {
+                console.log(payload)
                 return payload;
             }
         });
     }
     catch(e) {
         decoded = {'TOKEN': e.msg}
-        this.$router.push('/logout');
+        Vue.$router.push('/logout');
     }
     return decoded;
 }

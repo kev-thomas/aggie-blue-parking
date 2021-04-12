@@ -1,4 +1,4 @@
-<template>
+<template v-bind:userInfo="userInfo">
     <v-container>
         <v-card>
             <v-img
@@ -9,13 +9,13 @@
                     flat
                     color="rgba(0,0,0,0)"
                 >
-                    <v-toolbar-title class="title white--text pl-0">Welcome back, {{user.firstname}}!</v-toolbar-title>
+                    <v-toolbar-title class="title white--text pl-0">Welcome back, {{userInfo.username}}!</v-toolbar-title>
                 </v-toolbar>
             </v-img>
             <v-card-actions>
                 <v-btn
                     text
-                    @click="showEvents = !showEvents"
+                    @click="showRentals = !showRentals"
                 >
                     Your rentals
                 </v-btn>
@@ -26,7 +26,7 @@
                     Find an event
                 </v-btn>
             </v-card-actions>
-            <v-card-text v-if="showEvents">
+            <v-card-text v-if="showRentals">
                 <div class="font-weight-bold ml-8 mb-2">
                     Today
                 </div>
@@ -35,14 +35,14 @@
                     dense
                 >
                     <v-timeline-item
-                        v-for="event in userEvents"
-                        :key="new Date(event.start)"
-                        :color="event.color"
+                        v-for="rental in userRentals"
+                        :key="new Date(rental.start)"
+                        :color="rental.color"
                         small
                     >
                         <div>
-                            <div class="font-weight-normal"><strong>{{event.name}}</strong></div>
-                            <div>{{event.start}}</div>
+                            <div class="font-weight-normal"><strong>{{rental.name}}</strong></div>
+                            <div>{{rental.start}}</div>
                         </div>
                     </v-timeline-item>
                 </v-timeline>
@@ -52,15 +52,22 @@
 </template>
 
 <script>
+    import parking from "@/plugins/axios";
+
     export default {
         name: "UserInfo",
 
+        props: {
+          userInfo: Object,
+        },
+
+        mounted() {
+          this.getRentals()
+        },
+
         data: () => {
             return {
-                user: {
-                    firstname: "John",
-                },
-                userEvents: [
+                userRentals: [
                     {
                         name: 'Test Event',
                         details: 'This is an event to test my code',
@@ -76,11 +83,31 @@
                         end: '2021-03-23 16:30',
                     },
                 ],
-                showEvents: false,
+                showRentals: false,
             }
         },
 
         methods: {
+          async getRentals() {
+            if(this.$session.exists()) {
+              try {
+                let newRentals = await parking.get('rentals', {
+                  headers: {
+                    Authorization: this.$session.get('user')
+                  }
+                });
+                this.rentals = newRentals.data
+
+              }
+              catch(error) {
+                console.error(error)
+                console.log('sum ting wong');
+              }
+            }
+            else {
+              this.$router.push('/login');
+            }
+          },
             goToEvents() {
                 this.$router.push('/events', () => {});
             },

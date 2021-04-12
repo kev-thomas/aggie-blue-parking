@@ -52,8 +52,10 @@ def getUserRentals(request):
             print(username)
             print(permissions)
 
-            parkingSpots = ParkingSpot.objects.filter(renter__username=username).order_by('-distance')
+            parkingSpots = Rentals.objects.filter(renter__username__exact=username).order_by('date')
+            print(parkingSpots)
             parking_list = serializers.serialize('json', parkingSpots)
+            print(parking_list)
             dict_parking = json.loads(parking_list)
             print(dict_parking)
 
@@ -345,7 +347,7 @@ def login(request):
             canRent = False
             canOwn = False
 
-            exp = datetime.now() + timedelta(hours=7)
+            exp = datetime.now() + timedelta(hours=9)
             responce_token = jwt.encode({'username': username, 'permissions': level, 'exp': exp}, 'secret',
                                         algorithm='HS256')
             content = {'token': responce_token}
