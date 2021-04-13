@@ -89,7 +89,7 @@ name: "Event",
         return this.mapsUrl;
       },
       set(value) {
-        this.mapsUrl = this.mapsUrl + value;
+        this.mapsUrl = 'https://www.google.com/maps/embed/v1/place?key=AIzaSyDxSFPq0nxltyh3jq0xhfqgzzuT1LPL6aI&q=' + value;
         console.log(this.mapsUrl)
       }
     }
