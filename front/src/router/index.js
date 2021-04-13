@@ -9,7 +9,7 @@ import Account from '../views/Account.vue'
 // import UserInfo from '../components/userInfo.vue'
 
 //stuff for checking routes
-import {decode} from "jsonwebtoken";
+import decode from "jsonwebtoken";
 
 Vue.use(VueRouter)
 //add routes here
