@@ -9,7 +9,7 @@ import Account from '../views/Account.vue'
 // import UserInfo from '../components/userInfo.vue'
 
 //stuff for checking routes
-import {decode} from "jsonwebtoken";
+import token from "jsonwebtoken";
 
 Vue.use(VueRouter)
 //add routes here
@@ -58,7 +58,7 @@ const routes = [
     beforeEnter: (to, from, next) => {
       if(Vue.prototype.$session.getAll()) {
         console.log(Vue.prototype.$session.getAll())
-        if(decode(Vue.prototype.$session.get('user'))['permissions'] === 1) {
+        if(token.decode(Vue.prototype.$session.get('user'))['permissions'] >= 1) {
           next();
         }
       }

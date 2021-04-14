@@ -406,6 +406,7 @@ def getAllEvents(request):
                 dict_data["start"] = dict_data["date"] + " " + dict_data["time"]
                 end_time = str(int(dict_data["time"][0:1]) + 10) + dict_data["time"][2:]
                 dict_data["end"] = dict_data["date"] + " " + (dict_data["time"])
+                dict_data["id"] = event["pk"]
                 events.append(dict_data)
             print(events)
             response = JsonResponse(events, status=200, safe=False)

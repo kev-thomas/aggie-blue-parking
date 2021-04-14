@@ -39,18 +39,28 @@
         <v-btn
             text
             color="secondary"
-            @click="showDialog = false"
+            @click="rentSpace()"
         >
           Rent a space
         </v-btn>
       </v-card-actions>
+      <Rent v-bind:pEvent="pEvent"
+            v-bind:showRent="showRent"
+            @close="showRent = false"
+      >
+      </Rent>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
+import Rent from '@/components/Rent'
 export default {
 name: "Event",
+
+  components: {
+    Rent
+  },
 
   props: {
     pEvent: Object,
@@ -62,7 +72,8 @@ name: "Event",
 
   data: () => {
     return {
-      mapsUrl: 'https://www.google.com/maps/embed/v1/place?key=AIzaSyDxSFPq0nxltyh3jq0xhfqgzzuT1LPL6aI&q='
+      mapsUrl: 'https://www.google.com/maps/embed/v1/place?key=AIzaSyDxSFPq0nxltyh3jq0xhfqgzzuT1LPL6aI&q=',
+      showRent: false,
     }
   },
 
@@ -92,7 +103,13 @@ name: "Event",
         this.mapsUrl = 'https://www.google.com/maps/embed/v1/place?key=AIzaSyDxSFPq0nxltyh3jq0xhfqgzzuT1LPL6aI&q=' + value;
         console.log(this.mapsUrl)
       }
-    }
+    },
+  },
+
+  methods: {
+    rentSpace() {
+      this.showRent = !this.showRent;
+    },
   }
 }
 </script>
