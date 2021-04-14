@@ -52,8 +52,10 @@ def getUserRentals(request):
             print(username)
             print(permissions)
 
-            parkingSpots = ParkingSpot.objects.filter(renter__username=username).order_by('-distance')
+            parkingSpots = Rentals.objects.filter(renter__username__exact=username).order_by('date')
+            print(parkingSpots)
             parking_list = serializers.serialize('json', parkingSpots)
+            print(parking_list)
             dict_parking = json.loads(parking_list)
             print(dict_parking)
 
@@ -83,6 +85,108 @@ def getUserRentals(request):
             response['Access-Control-Allow-Origin'] = 'http://localhost:8080/'
 
             return response
+
+
+# gets the users details if the token is valid
+def getUserDetail(request):
+    if request.method == 'GET':
+
+        header = request.headers
+        token = header['Authorization']
+        bToken = token.encode('utf-8')
+
+        try:
+            payload = jwt.decode(bToken, "secret", algorithms=["HS256"])
+
+            username = payload['username']
+            permissions = payload['permissions']
+            exp = payload['exp']
+
+            print(username)
+            print(permissions)
+
+            returnData = {}
+
+            # get the user
+            user = User.objects.get(username=username)
+
+            userInfo = {}
+            userInfo['username'] = user.username
+            userInfo['firstName'] = user.firstname
+            userInfo['lastName'] = user.lastname
+            userInfo['email'] = user.email
+            userInfo['money'] = user.money
+
+            returnData['user'] = userInfo
+
+            # get his rented out parking spots
+            userRentals = Rentals.objects.filter(renter__username=username)
+
+            rentedSpots = []
+            for rental in userRentals:
+
+
+                data_rental = {}
+                rented = rental.spot.all()[0]
+
+                data_rental['streetAddress'] = rented.streetAddress
+                data_rental['city'] = rented.city
+                data_rental['zip'] = rented.zip
+                data_rental['date'] = rental.date
+
+                rentedSpots.append(data_rental)
+
+            returnData['rentals'] = rentedSpots
+
+
+            ownedSpots = []
+            # if he is an owner get his owned spots
+            if int(permissions) >= 2:
+
+                returnData['owner'] = True
+                all_spots = ParkingSpot.objects.all()
+
+                owned_spots = []
+                for spot in all_spots:
+
+                    if len(spot.owner.all()) > 0:
+                        if spot.owner.all()[0].username == username:
+
+                            owned_spots.append(spot)
+
+                for spot in owned_spots:
+
+                    owned = {}
+                    owned['streetAddress'] = spot.streetAddress
+                    owned['city'] = spot.city
+                    owned['zip'] = spot.zip
+                    owned['price'] = spot.price
+
+                    ownedSpots.append(owned)
+
+                returnData['owned'] = ownedSpots
+            else:
+                returnData['owner'] = False
+
+            response = JsonResponse(returnData, status=200)
+
+            response['Access-Control-Allow-Origin'] = 'http://localhost:8080/'
+
+            return response
+
+        except Exception as e:
+
+            # maybe log the exception
+            print(e)
+
+            content = {'response': 'Unauthorized'}
+            response = JsonResponse(content, status=401)
+
+            response['Access-Control-Allow-Origin'] = 'http://localhost:8080/'
+
+            return response
+
+
 
 #get all available spots in an event
 def eventDetail(request, event_id):
@@ -291,18 +395,20 @@ def getAllEvents(request):
             events_objects = Event.objects.order_by('date')
             events_list = serializers.serialize('json', events_objects)
             dict_events = json.loads(events_list)
-            print(dict_events)
 
             # removes info about the database
             events = []
             dict_data = {}
+            # Format response data to match front-end requirements
             for event in dict_events:
-                events.append(event)
-
-            dict_data['events'] = events
-            dict_data['token'] = token
-
-            response = JsonResponse(dict_data, status=200)
+                dict_data = event["fields"]
+                dict_data["name"] = dict_data["title"]
+                dict_data["start"] = dict_data["date"] + " " + dict_data["time"]
+                end_time = str(int(dict_data["time"][0:1]) + 10) + dict_data["time"][2:]
+                dict_data["end"] = dict_data["date"] + " " + (dict_data["time"])
+                events.append(dict_data)
+            print(events)
+            response = JsonResponse(events, status=200, safe=False)
 
             response['Access-Control-Allow-Origin'] = 'http://localhost:8080/'
 
@@ -340,13 +446,14 @@ def login(request):
 
         if auth(username, password):
 
+            user = User.objects.get(username=username)
             level = getPermission(username)
 
             canRent = False
             canOwn = False
 
-            exp = datetime.now() + timedelta(hours=7)
-            responce_token = jwt.encode({'username': username, 'permissions': level, 'exp': exp}, 'secret',
+            exp = datetime.now() + timedelta(hours=9)
+            responce_token = jwt.encode({'username': username, 'permissions': level, 'exp': exp, 'id': user.pk}, 'secret',
                                         algorithm='HS256')
             content = {'token': responce_token}
 
@@ -469,11 +576,11 @@ def auth(uname, password):
 def getPermission(uname):
     permission = 0;
 
-    user = User(username=uname)
+    user = User.objects.get(username=uname)
 
     if user.can_rent():
         permission += 1
-    if user.can_own():
+    if user.owner:
         permission += 2
 
     return permission

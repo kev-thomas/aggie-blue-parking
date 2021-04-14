@@ -2,19 +2,36 @@
   <div id="app">
     <v-navigation-drawer
         app
-        absolute
-        v-model="appDrawer"
         bottom
-        temporary>
+        v-model="appDrawer"
+    >
       <v-list nav>
-        <v-list-item>Dashboard</v-list-item>
-        <v-list-item @click="goToEvents">Events</v-list-item>
-        <v-list-item>Account</v-list-item>
+        <v-list-item @click="goToHome">
+          <v-list-item-avatar>
+            <v-icon>
+              mdi-view-dashboard
+            </v-icon>
+          </v-list-item-avatar>
+          Dashboard
+        </v-list-item>
+        <v-list-item @click="goToEvents"><v-list-item-avatar>
+          <v-icon>
+            mdi-calendar
+          </v-icon>
+        </v-list-item-avatar>
+          Events</v-list-item>
+        <v-list-item @click="goToAccount">
+          <v-list-item-avatar>
+            <v-icon>
+              mdi-account
+            </v-icon>
+          </v-list-item-avatar>
+          Account</v-list-item>
         <v-list-item bottom>
           <v-btn
               @click="logout"
               :loading="loggingOut"
-              v-show="this.$session.exists()"
+              v-show="loggedIn()"
           >Log out</v-btn>
         </v-list-item>
       </v-list>
@@ -25,15 +42,57 @@
         :src="require('./assets/images/usu-fall.jpg')">
       <v-app-bar-nav-icon
           @click="appDrawer = !appDrawer"
-          v-show="this.$session.exists()"
+          v-show="loggedIn()"
       ></v-app-bar-nav-icon>
-      <v-toolbar-title>{{this.title}}</v-toolbar-title>
+      <v-toolbar-title class="title black--text pl-0">Aggie Blue Parking</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn icon
-           @click="logout"
-           v-show="this.$session.exists()">
-        <v-icon>mdi-export</v-icon>
-      </v-btn>
+
+      <div v-show="!loggedIn()">
+        <v-tooltip bottom>
+          <template slot="activator" slot-scope="{ on }">
+            <v-btn
+                icon
+                @click="register"
+                v-on="on"
+            >
+              <v-icon>mdi-account-plus-outline</v-icon>
+            </v-btn>
+          </template>
+          <span>Register</span>
+        </v-tooltip>
+      </div>
+
+      <div v-show="!loggedIn()">
+        <v-tooltip bottom>
+          <template slot="activator" slot-scope="{ on }">
+            <v-btn
+                icon
+                @click="login"
+                v-on="on"
+            >
+              <v-icon>mdi-account-arrow-left-outline</v-icon>
+            </v-btn>
+          </template>
+          <span>Login</span>
+        </v-tooltip>
+      </div>
+
+
+      <div v-show="loggedIn()">
+        <v-tooltip bottom>
+          <template slot="activator" slot-scope="{ on }">
+            <v-btn
+                icon
+                @click="logout"
+                v-on="on"
+            >
+              <v-icon>mdi-home-export-outline</v-icon>
+            </v-btn>
+          </template>
+          <span>Logout</span>
+        </v-tooltip>
+      </div>
+
     </v-app-bar>
     <v-main>
       <v-container fluid>
@@ -61,14 +120,34 @@ export default {
       if(this.$router.currentRoute.name !== 'Login')
       this.$router.push('/login');
     }
+    else {
+      this.$router.replace('/', () => {});
+    }
   },
 
   methods: {
+    login() {
+      this.$router.replace('/login', () => {});
+    },
     logout() {
-      this.$router.replace('/logout');
+      this.appDrawer = false;
+      this.$session.destroy();
+      this.$router.replace('/logout', () => {});
+    },
+    register() {
+      this.$router.replace('/register', () => {});
     },
     goToEvents() {
-      this.$router.push('/events');
+      this.$router.push('/events', () => {});
+    },
+    goToHome() {
+      this.$router.push('/', () => {});
+    },
+    goToAccount() {
+      this.$router.push('/account', () => {});
+    },
+    loggedIn() {
+      return this.$session.exists();
     }
   },
 
@@ -80,7 +159,7 @@ export default {
 
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

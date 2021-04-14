@@ -5,6 +5,8 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Events from '../views/Events.vue'
+import Account from '../views/Account.vue'
+// import UserInfo from '../components/userInfo.vue'
 
 //stuff for checking routes
 import {decode} from "jsonwebtoken";
@@ -14,8 +16,14 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
+    redirect: '/dashboard',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Home,
   },
   {
     path: '/login',
@@ -57,6 +65,11 @@ const routes = [
     }
   },
   {
+    path: '/account',
+    name: 'Account',
+    component: Account,
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting
@@ -71,5 +84,15 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.path === from.path) {
+    next(false);
+  }
+  else {
+    next();
+  }
+});
+
 
 export default router

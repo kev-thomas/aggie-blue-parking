@@ -1,6 +1,5 @@
 <template>
   <v-card>
-    <!-- Can the ref be Lform for login? -->
     <v-form ref="form">
     <v-card-title>Login</v-card-title>
     <v-card-text>
@@ -33,6 +32,7 @@
 
 <script>
 import parking from '../plugins/axios'
+import token from '../plugins/jwt.js'
 export default {
   name: "Login",
 
@@ -67,8 +67,10 @@ export default {
         if(!this.person.ERROR) {
           this.$session.start();
           this.$session.set('user', this.person.token);
+          console.log(token.decode(this.person.token))
+          this.$session.set('user-info', token.decode(this.person.token))
           console.log(this.person)
-          await this.$router.push('/')
+          await this.$router.push('/', () => {})
         }
       }
       else {

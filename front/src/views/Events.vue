@@ -142,15 +142,15 @@ name: "Events",
           name: 'Test Event',
           details: 'This is an event to test my code',
           color: 'blue',
-          start: '2021-03-23 12:30',
-          end: '2021-03-23 13:30',
+          start: '2021-04-23 12:30',
+          end: '2021-04-23 13:30',
         },
         {
           name: 'Test Event 2',
           details: 'This is another event to test my code',
           color: 'red',
-          start: '2021-03-23 14:30',
-          end: '2021-03-23 16:30',
+          start: '2021-04-23 14:30',
+          end: '2021-04-23 16:30',
         },
       ],
     }
@@ -160,13 +160,16 @@ name: "Events",
     async getEvents() {
       if(this.$session.exists()) {
         try {
-          this.events = await parking.get('allevents', {
+          let newEvents = await parking.get('allevents', {
             headers: {
               Authorization: this.$session.get('user')
             }
-          }).events;
+          });
+          this.events = newEvents.data
+
         }
         catch(error) {
+          console.error(error)
           console.log('sum ting wong');
         }
       }

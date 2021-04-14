@@ -233,7 +233,7 @@ If not successful:
 	Unauthorized
 
 
-### Get all parking spots purchased by a user
+### Get all parking spots purchased by a user (OUTDATED use the endpoint below it)
 
 Make a `GET` request to `localhost:8000/genie/rentals`
 
@@ -282,6 +282,50 @@ If not successful:
 
 	code 401
 	Unauthorized
+
+### Get user details
+
+Make a `GET` request to `http://localhost:8000/genie/getUserDetail`
+
+header:
+
+
+        header = {
+                Content-Type: application/json,
+                Authorization: <token from login answer here> 
+        }
+
+
+Answer:
+
+```
+{
+    "user": {
+        "username": "Rich",
+        "firstName": "Mr owner",
+        "lastName": "Rich",
+        "email": "ok@email.com",
+        "money": 95
+    },
+    "rentals": [
+        {
+            "streetAddress": "423 yeet street",
+            "city": "logan",
+            "zip": "84321",
+            "date": "2021-06-21"
+        }
+    ],
+    "owner": true,
+    "owned": [
+        {
+            "streetAddress": "3432 East",
+            "city": "logan",
+            "zip": "84321",
+            "price": 4
+        }
+    ]
+}
+```
 
 ### Get details of an event and available parking spots 
 
