@@ -41,6 +41,10 @@
           required
         ></v-text-field>
       </v-card-text>
+      <v-switch
+        v-model="user['owner']"
+        :label="'I am going to register parking lots for rental use'"
+      ></v-switch>
       <v-btn
         :disabled="!valid && loading"
         @click="register"
@@ -63,7 +67,7 @@ export default {
       email: '',
       password: '',
       renter: 'True',
-      owner: 'False',
+      owner: 'True',
     },
     person: null,
     valid: true,
