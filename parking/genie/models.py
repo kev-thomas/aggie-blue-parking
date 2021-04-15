@@ -77,7 +77,8 @@ class Rentals(models.Model):
 
     def __str__(self):
 
-        message = str(self.spot.all()[0]) + "-on-" + str(self.date) + "-by-" + str(self.renter.all()[0])
+        #message = str(self.spot.all()[0]) + "-on-" + str(self.date) + "-by-" + str(self.renter.all()[0])
+        message = str(self.date) + " " + str(self.pk)
         return message
 
 

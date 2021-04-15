@@ -306,8 +306,12 @@ def makeRental(request):
                 i = 0
                 for rental in rentals:
 
+
+                    print(rental)
+                    print("will i shit my pant?")
                     spot_rental = rentals[i].spot.all()[0].pk
                     event_rental = rentals[i].event.all()[0].pk
+                    print("I did not shit my pants")
 
                     print("comparing:")
                     print(str(rentals[i].date) + " and " + str(date))
@@ -345,9 +349,11 @@ def makeRental(request):
             )
 
             newRental.save()
-            newRental.spot.set(spotId)
-            newRental.renter.set(userId)
-            newRental.event.set(eventId)
+
+            print(str(spotId))
+            newRental.spot.set(str(spotId))
+            newRental.renter.set(str(userId))
+            newRental.event.set(str(eventId))
 
             response = JsonResponse({'message': 'success', 'token': token}, status=200)
             return response
