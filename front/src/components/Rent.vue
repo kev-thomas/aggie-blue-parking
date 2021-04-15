@@ -64,11 +64,11 @@
       </v-card-actions>
       <v-alert
           :value="alert"
-          type="success"
+          :type="alertType"
           dismissible
           transition="scale-transition"
       >
-        Success!
+        {{ alertMessage }}
       </v-alert>
     </v-card>
   </v-dialog>
@@ -95,6 +95,8 @@ export default {
         'available_spots': null,
       },
       alert: false,
+      alertType: 'success',
+      alertMessage: 'Success!'
     }
   },
 
@@ -135,13 +137,25 @@ export default {
             }
           });
           response = rentedSpace.data;
+          if('message' in response) {
+            if(response.message === 'success') {
+              this.alertType = 'success'
+              this.alertMessage = 'Success!'
+              this.alert = true;
+            }
+          }
+          else {
+            this.alertType = 'error'
+            this.alertMessage = 'Something went wrong, please try again later.'
+            this.alert = true
+          }
         }
         catch(error) {
+          this.alertType = 'error'
+          this.alertMessage = 'Something went wrong, please try again later.'
+          this.alert = true
           console.error(error)
           console.log('sum ting wong');
-        }
-        if(response.message === "success") {
-          this.alert = true;
         }
       }
       else {

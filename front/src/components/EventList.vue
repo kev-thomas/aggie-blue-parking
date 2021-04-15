@@ -29,14 +29,14 @@
                   <v-icon>mdi-information-outline</v-icon>
                 </v-btn>
               </v-list-item-action>
-              <Event
-                  v-bind:p-event="selectedEvent"
-                  v-bind:show-details="showDetails"
-                  @close="showDetails = false"
-              >
-              </Event>
             </v-list-item>
         </v-list>
+        <Event
+            v-bind:p-event="selectedEvent"
+            v-bind:show-details="showDetails"
+            @close="showDetails = false"
+        >
+        </Event>
       </v-card-text>
     </v-card>
   </v-container>
@@ -50,6 +50,10 @@ name: "EventList",
 
   components: {
     Event
+  },
+
+  mounted() {
+    this.getEvents();
   },
 
   data: () => {
@@ -120,7 +124,7 @@ name: "EventList",
         }
       }
       else {
-        this.$router.push('/login');
+        await this.$router.push('/login');
       }
     },
 
