@@ -414,6 +414,8 @@ def getAllEvents(request):
             return response
 
 
+
+
 @csrf_exempt
 def login(request):
     if request.method == 'POST':

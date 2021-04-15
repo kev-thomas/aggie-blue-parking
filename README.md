@@ -17,6 +17,10 @@ __directory organization__
 	__README.md
 	|__docs/
 	|  |_usecases/
+	|  |_sprintreports
+	|  |  |_Sprint 1 Docs
+	|  |  |_Sprint 2 Docs
+	|  |  |_Sprint 3 Docs
 	|__front/        <--------- Front End
 	|  |_README.md   <--------- Front End instructions
 	|__parking/      <--------- Back end
