@@ -1,8 +1,12 @@
 <template>
     <v-container fluid>
-      <v-row no-gutters>
+      <v-row v-if="!!user" no-gutters>
           <v-col no-gutters cols="6" rows="4">
-              <UserInfo v-bind:user-info="getUser()"></UserInfo>
+              <UserInfo
+                  v-bind:user-info="user"
+                  v-bind:user-rentals="rentals"
+              >
+              </UserInfo>
           </v-col>
           <v-col no-gutters cols="6" rows="4">
               <EventList></EventList>
@@ -15,6 +19,7 @@
 // @ is an alias to /src
 import UserInfo from '@/components/UserInfo'
 import EventList from '@/components/EventList'
+import parking from "@/plugins/axios";
 
 export default {
   name: 'Home',
@@ -27,6 +32,8 @@ export default {
   data: () => ({
     loggingOut: false,
     appDrawer: false,
+    user: null,
+    rentals: null,
 
   }),
 
@@ -35,15 +42,37 @@ export default {
       this.$router.push('/login', () => {});
     }
   },
+  mounted() {
+    this.getUser()
+  },
 
   methods: {
     logout() {
       this.$session.destroy();
       this.$router.push('/login', () => {});
     },
-    getUser() {
-      console.log(this.$session.get('user-info'))
-      return this.$session.get('user-info')
+    async getUser() {
+      if(this.$session.exists()) {
+        try {
+          let response = await parking.get('getUserDetail', {
+            headers: {
+              Authorization: this.$session.get('user')
+            }
+          });
+          this.person = response.data;
+        }
+        catch(error) {
+          console.log('wtf')
+          console.log(error)
+        }
+      }
+      console.log(this.person)
+      if(!this.person.ERROR) {
+        this.$session.set('user-details', this.person);
+        await this.$router.push('/', () => {})
+      }
+      this.user = this.person.user
+      this.rentals = this.person.rentals
     }
   },
 

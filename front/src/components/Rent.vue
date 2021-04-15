@@ -24,7 +24,7 @@
         >
           <v-list-item
               v-for="space in parking.available_spots"
-              :key="space.address"
+              :key="space.id"
           >
             <v-list-item-avatar>
               <v-icon>mdi-parking</v-icon>
@@ -40,7 +40,7 @@
                 <template slot="activator" slot-scope="{ on }">
                   <v-btn
                       icon
-                      @click="rentThisSpace"
+                      @click="rentThisSpace(space.id)"
                       v-on="on"
                   >
                     <v-icon>mdi-currency-usd</v-icon>
@@ -62,6 +62,14 @@
           Close
         </v-btn>
       </v-card-actions>
+      <v-alert
+          :value="alert"
+          type="success"
+          dismissible
+          transition="scale-transition"
+      >
+        Success!
+      </v-alert>
     </v-card>
   </v-dialog>
 </template>
@@ -85,7 +93,8 @@ export default {
       mapsUrl: 'https://www.google.com/maps/embed/v1/place?key=AIzaSyDxSFPq0nxltyh3jq0xhfqgzzuT1LPL6aI&q=',
       parking: {
         'available_spots': null,
-      }
+      },
+      alert: false,
     }
   },
 
@@ -107,12 +116,37 @@ export default {
         }
       }
       else {
-        this.$router.push('/login');
+        await this.$router.push('/login');
       }
     },
 
-    rentThisSpace() {
-      return ':)'
+    async rentThisSpace(spaceId) {
+      if(this.$session.exists()) {
+        let response;
+        try {
+          let rentalData = {
+            "eventId": this.pEvent.id,
+            "spotId": spaceId,
+            "userId": this.$session.get('user-details').user.id
+          }
+          let rentedSpace = await parking.post('makeRental', rentalData, {
+            headers: {
+              Authorization: this.$session.get('user')
+            }
+          });
+          response = rentedSpace.data;
+        }
+        catch(error) {
+          console.error(error)
+          console.log('sum ting wong');
+        }
+        if(response.message === "success") {
+          this.alert = true;
+        }
+      }
+      else {
+        await this.$router.push('/login');
+      }
     },
   },
 

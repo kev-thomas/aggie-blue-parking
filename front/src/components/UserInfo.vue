@@ -1,4 +1,8 @@
-<template v-bind:userInfo="userInfo">
+<template
+    v-bind:userInfo="userInfo"
+    v-bind:userRentals="userRentals"
+    :key="userInfo.id"
+>
     <v-container>
         <v-card>
             <v-img
@@ -9,7 +13,7 @@
                     flat
                     color="rgba(0,0,0,0)"
                 >
-                    <v-toolbar-title class="title white--text pl-0">Welcome back, {{userInfo.username}}!</v-toolbar-title>
+                    <v-toolbar-title class="title white--text pl-0">Welcome back, {{userInfo.firstName}}!</v-toolbar-title>
                 </v-toolbar>
             </v-img>
             <v-card-actions>
@@ -27,22 +31,19 @@
                 </v-btn>
             </v-card-actions>
             <v-card-text v-if="showRentals">
-                <div class="font-weight-bold ml-8 mb-2">
-                    Today
-                </div>
                 <v-timeline
                     align-top
                     dense
                 >
                     <v-timeline-item
                         v-for="rental in userRentals"
-                        :key="new Date(rental.start)"
-                        :color="rental.color"
+                        :key="rental.streetAddress"
+                        :color="rental.color ? rental.color : 'blue'"
                         small
                     >
                         <div>
-                            <div class="font-weight-normal"><strong>{{rental.name}}</strong></div>
-                            <div>{{rental.start}}</div>
+                            <div class="font-weight-normal"><strong>{{rental.streetAddress}}</strong></div>
+                            <div>{{rental.date}}</div>
                         </div>
                     </v-timeline-item>
                 </v-timeline>
@@ -58,7 +59,12 @@
         name: "UserInfo",
 
         props: {
-          userInfo: Object,
+          userInfo: {
+            default: null
+          },
+          userRentals: {
+            default: null
+          },
         },
 
         mounted() {
@@ -67,22 +73,22 @@
 
         data: () => {
             return {
-                userRentals: [
-                    {
-                        name: 'Test Event',
-                        details: 'This is an event to test my code',
-                        color: 'blue',
-                        start: '2021-03-23 12:30',
-                        end: '2021-03-23 13:30',
-                    },
-                    {
-                        name: 'Test Event 2',
-                        details: 'This is another event to test my code',
-                        color: 'red',
-                        start: '2021-03-23 14:30',
-                        end: '2021-03-23 16:30',
-                    },
-                ],
+                // userRentals: [
+                //     {
+                //         name: 'Test Event',
+                //         details: 'This is an event to test my code',
+                //         color: 'blue',
+                //         start: '2021-03-23 12:30',
+                //         end: '2021-03-23 13:30',
+                //     },
+                //     {
+                //         name: 'Test Event 2',
+                //         details: 'This is another event to test my code',
+                //         color: 'red',
+                //         start: '2021-03-23 14:30',
+                //         end: '2021-03-23 16:30',
+                //     },
+                // ],
                 showRentals: false,
             }
         },
@@ -108,9 +114,9 @@
               this.$router.push('/login');
             }
           },
-            goToEvents() {
-                this.$router.push('/events', () => {});
-            },
+          goToEvents() {
+              this.$router.push('/events', () => {});
+          },
         }
     }
 </script>

@@ -116,6 +116,7 @@ def getUserDetail(request):
             userInfo['lastName'] = user.lastname
             userInfo['email'] = user.email
             userInfo['money'] = user.money
+            userInfo['id'] = user.pk
 
             returnData['user'] = userInfo
 
@@ -124,8 +125,6 @@ def getUserDetail(request):
 
             rentedSpots = []
             for rental in userRentals:
-
-
                 data_rental = {}
                 rented = rental.spot.all()[0]
 
@@ -137,7 +136,6 @@ def getUserDetail(request):
                 rentedSpots.append(data_rental)
 
             returnData['rentals'] = rentedSpots
-
 
             ownedSpots = []
             # if he is an owner get his owned spots
@@ -151,11 +149,9 @@ def getUserDetail(request):
 
                     if len(spot.owner.all()) > 0:
                         if spot.owner.all()[0].username == username:
-
                             owned_spots.append(spot)
 
                 for spot in owned_spots:
-
                     owned = {}
                     owned['streetAddress'] = spot.streetAddress
                     owned['city'] = spot.city
@@ -187,10 +183,8 @@ def getUserDetail(request):
             return response
 
 
-
-#get all available spots in an event
+# get all available spots in an event
 def eventDetail(request, event_id):
-
     if request.method == 'GET':
 
         event = get_object_or_404(Event, pk=event_id)
@@ -209,7 +203,7 @@ def eventDetail(request, event_id):
                 return response
 
             # get all the rentals on the same day as the event
-            rentals = Rentals.objects.filter(date = event.date)
+            rentals = Rentals.objects.filter(date=event.date)
 
             parkingSpots = ParkingSpot.objects.order_by('-distance')
 
@@ -218,7 +212,6 @@ def eventDetail(request, event_id):
             validSpots = []
             for spot in parkingSpots:
 
-
                 valid = False
                 if len(rentals) == 0:
                     valid = True
@@ -226,16 +219,15 @@ def eventDetail(request, event_id):
                 for rental in rentals:
 
                     rental_spot = rental.spot.all()[0].pk
-                    print(" checking ", rental_spot, " with " , spot.pk)
+                    print(" checking ", rental_spot, " with ", spot.pk)
 
                     if rental_spot == spot.pk:
                         valid = False
                         break
                     else:
-                        valid = True 
+                        valid = True
 
                 if valid:
-                    
                     spotData = {}
                     spotData["address"] = spot.streetAddress
                     spotData["city"] = spot.city
@@ -243,10 +235,10 @@ def eventDetail(request, event_id):
                     spotData["price"] = spot.price
                     spotData["id"] = spot.pk
 
-                    #json_spot = serializers.serialize('json', spot)
-                    #dict_spot = json.loads(json_spot)
+                    # json_spot = serializers.serialize('json', spot)
+                    # dict_spot = json.loads(json_spot)
                     validSpots.append(spotData)
-            
+
             dict_data = {}
             details = {}
 
@@ -277,12 +269,11 @@ def eventDetail(request, event_id):
             return response
 
 
-#get all rentals by user
+# get all rentals by user
 
-#create a rental
+# create a rental
 @csrf_exempt
 def makeRental(request):
-
     if request.method == 'POST':
 
         try:
@@ -302,7 +293,6 @@ def makeRental(request):
             spotId = json.loads(request.body)['spotId']
             userId = json.loads(request.body)['userId']
 
-
             event = get_object_or_404(Event, pk=eventId)
             spot = get_object_or_404(ParkingSpot, pk=spotId)
             renter = get_object_or_404(User, pk=userId)
@@ -320,12 +310,11 @@ def makeRental(request):
                     event_rental = rentals[i].event.all()[0].pk
 
                     print("comparing:")
-                    print(str(rentals[i].date) + " and " + str(date) )
-                    print(str(event_rental) + " and " + str(eventId) )
-                    print(str(spot_rental) + " and " + str(spotId) )
+                    print(str(rentals[i].date) + " and " + str(date))
+                    print(str(event_rental) + " and " + str(eventId))
+                    print(str(spot_rental) + " and " + str(spotId))
 
                     if rentals[i].date == date and str(spot_rental) == str(spotId):
-
                         content = {'message': 'spot not availble'}
                         responce = JsonResponse(content, status=409)
                         return responce
@@ -333,7 +322,7 @@ def makeRental(request):
                     i += 1
 
                 # check money
-                if(renter.money >= spot.price):
+                if (renter.money >= spot.price):
 
                     print("debiting $" + str(spot.price))
                     renter.money = renter.money - spot.price
@@ -351,11 +340,10 @@ def makeRental(request):
 
                 print("PRINTING EXCEPTION:", e)
 
-
             newRental = Rentals(
-                date = date
-                )
-            
+                date=date
+            )
+
             newRental.save()
             newRental.spot.set(spotId)
             newRental.renter.set(userId)
@@ -364,13 +352,11 @@ def makeRental(request):
             response = JsonResponse({'message': 'success', 'token': token}, status=200)
             return response
 
-
         except Exception as e:
 
             print("EXCEPTION:", e)
             response = JsonResponse({'ERROR': 'MALFORMED REQUEST'}, status=400)
             return response
-
 
 
 # gets all the events if the token is valid
@@ -382,7 +368,7 @@ def getAllEvents(request):
             header = request.headers
             token = header['Authorization']
             bToken = token.encode('utf-8')
- 
+
             payload = jwt.decode(bToken, "secret", algorithms=["HS256"])
 
             username = payload['username']
@@ -452,7 +438,8 @@ def login(request):
             canOwn = False
 
             exp = datetime.now() + timedelta(hours=9)
-            responce_token = jwt.encode({'username': username, 'permissions': level, 'exp': exp, 'id': user.pk}, 'secret',
+            responce_token = jwt.encode({'username': username, 'permissions': level, 'exp': exp, 'id': user.pk},
+                                        'secret',
                                         algorithm='HS256')
             content = {'token': responce_token}
 
@@ -471,19 +458,19 @@ def login(request):
 
             return response
 
+
 @csrf_exempt
 def register(request):
-
     if request.method == 'POST':
 
         header = request.headers
-        #token = header['Authorization']
-        #bToken = token.encode('utf-8')
-        #payload = jwt.decode(bToken, "secret", algorithms=["HS256"])
+        # token = header['Authorization']
+        # bToken = token.encode('utf-8')
+        # payload = jwt.decode(bToken, "secret", algorithms=["HS256"])
 
         print(request.body)
 
-        try:        
+        try:
             firstname = json.loads(request.body)['firstname']
             lastname = json.loads(request.body)['lastname']
             username = json.loads(request.body)['username']
@@ -501,16 +488,17 @@ def register(request):
             return HttpResponse('Conflict', status=409)
         else:
             newUser = User(
-                firstname = firstname,
-                lastname = lastname,
-                username = username,
-                email = email,
-                password = password,
-                renter = renter,
-                owner = owner
+                firstname=firstname,
+                lastname=lastname,
+                username=username,
+                email=email,
+                password=password,
+                renter=renter,
+                owner=owner
             )
             newUser.save()
             return HttpResponse('OK', status=200)
+
 
 @csrf_exempt
 def createParking(request):
@@ -523,7 +511,7 @@ def createParking(request):
             payload = jwt.decode(bToken, "secret", algorithms=["HS256"])
             username = payload['username']
 
-            owner = User.objects.get(username = username)
+            owner = User.objects.get(username=username)
             renter = None
             streetAddress = json.loads(request.body)['streetAddress']
             city = json.loads(request.body)['city']
@@ -531,20 +519,20 @@ def createParking(request):
             price = json.loads(request.body)['price']
             available = True
         except KeyError:
-            response = JsonResponse({'ERROR' : 'MALFORMED REQUEST'}, 400)
+            response = JsonResponse({'ERROR': 'MALFORMED REQUEST'}, 400)
             return response
         content = None
 
         newParking = ParkingSpot(
-            streetAddress = streetAddress,
-            city = city,
-            zip = zip,
-            price = price,
-            available = available
+            streetAddress=streetAddress,
+            city=city,
+            zip=zip,
+            price=price,
+            available=available
         )
         newParking.save()
         newParking.owner.add(owner)
-        #newParking.renter.set(None)
+        # newParking.renter.set(None)
         newParking.save()
         return HttpResponse('OK', status=200)
 
