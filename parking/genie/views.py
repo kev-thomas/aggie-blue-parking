@@ -132,6 +132,7 @@ def getUserDetail(request):
                 data_rental['city'] = rented.city
                 data_rental['zip'] = rented.zip
                 data_rental['date'] = rental.date
+                data_rental['code'] = rental.code
 
                 rentedSpots.append(data_rental)
 
@@ -330,7 +331,13 @@ def makeRental(request):
 
                     print("debiting $" + str(spot.price))
                     renter.money = renter.money - spot.price
+
+                    # send the money to the owner:
+                    owner = spot.owner.all()[0]
+                    owner.money = owner.money + spot.price
+        
                     renter.save()
+                    owner.save()
                 else:
 
                     content = {'message': 'not enough money'}
@@ -344,8 +351,17 @@ def makeRental(request):
 
                 print("PRINTING EXCEPTION:", e)
 
+            # code = date + username + str(spot)
+            smallDate = str(date)[4:]
+            smallDate = smallDate.replace("-","")
+            smallName = renter.username[0:2]
+            spotID = spot.pk
+            code = smallDate + smallName + str(spotID)
+            print("your code is ", code)
+
             newRental = Rentals(
-                date=date
+                date=date,
+                code=code
             )
 
             newRental.save()
@@ -355,7 +371,7 @@ def makeRental(request):
             newRental.renter.set(str(userId))
             newRental.event.set(str(eventId))
 
-            response = JsonResponse({'message': 'success', 'token': token}, status=200)
+            response = JsonResponse({'message': 'success', 'code':code, 'token': token}, status=200)
             return response
 
         except Exception as e:

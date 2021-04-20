@@ -74,6 +74,7 @@ class Rentals(models.Model):
     renter = models.ManyToManyField(User, related_name='currentRenter')
     spot = models.ManyToManyField(ParkingSpot, related_name='linkedSpot')
     event = models.ManyToManyField(Event, related_name='bookedEvent')
+    code = models.CharField(max_length = 200, default = "none")
 
     def __str__(self):
 
