@@ -14,6 +14,8 @@
                     color="rgba(0,0,0,0)"
                 >
                     <v-toolbar-title class="title white--text pl-0">Welcome back, {{userInfo.firstName}}!</v-toolbar-title>
+                    <v-spacer/>
+                    <v-subheader class="title white--text pl-0">Current balance: ${{userInfo.money}}</v-subheader>
                 </v-toolbar>
             </v-img>
             <v-card-actions>
@@ -42,8 +44,16 @@
                         small
                     >
                         <div>
-                            <div class="font-weight-normal"><strong>{{rental.streetAddress}}</strong></div>
-                            <div>{{rental.date}}</div>
+                          <v-row>
+                            <v-col>
+                              <div class="font-weight-normal"><strong>{{rental.streetAddress}}</strong></div>
+                              <div>{{rental.date}}</div>
+                            </v-col>
+                            <v-col>
+                              <div><strong>Confirmation code:</strong> {{rental.code}}</div>
+                            </v-col>
+                          </v-row>
+
                         </div>
                     </v-timeline-item>
                 </v-timeline>
