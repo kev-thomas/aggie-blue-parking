@@ -459,7 +459,11 @@ Make a `POST` to `http://localhost:8000/genie/addMoney`
 	}
 
 	body= {
-     		"money": 10
+	        "fullName": john doe
+	        "ccNum": 123
+	        "exprDate": "Apr 10 2022"
+	        "secCode" 123
+     		"money": "10"
 	}
 	
 Answer should look like this if auth successful:
