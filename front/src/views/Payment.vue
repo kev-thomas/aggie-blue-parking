@@ -4,24 +4,24 @@
       <v-card-title>Payment Information</v-card-title>
       <v-card-text>
         <v-text-field
-          
+          v-model="payment['fullName']"
           label="Full name"
           required
         ></v-text-field>
 
         <v-text-field
-          
+          v-model="payment['ccNumber']"
           label="Credit card number"
           required
         ></v-text-field>
         <v-text-field
-          
+          v-model="payment['exprDate']"
           label="Expiration date"
           required
         ></v-text-field>
 
         <v-text-field
-          
+          v-model="payment['secCode']"
           label="Security code"
           required
         ></v-text-field>

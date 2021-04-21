@@ -18,7 +18,8 @@
               </Money>
           </v-col>
           <v-col no-gutters cols="3" rows="4">
-              <OwnerInfo></OwnerInfo>
+              <OwnerInfo>
+              </OwnerInfo>
           </v-col>
       </v-row>
     </v-container>
