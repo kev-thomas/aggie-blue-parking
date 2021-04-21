@@ -6,6 +6,7 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Events from '../views/Events.vue'
 import Account from '../views/Account.vue'
+import Payment from '../views/Payment.vue'
 // import UserInfo from '../components/userInfo.vue'
 
 //stuff for checking routes
@@ -68,6 +69,11 @@ const routes = [
     path: '/account',
     name: 'Account',
     component: Account,
+  },
+  {
+    path: '/payment',
+    name: 'Payment',
+    component: Payment,
   },
   {
     path: '/about',

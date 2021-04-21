@@ -11,6 +11,12 @@
           <v-col no-gutters cols="6" rows="4">
               <EventList></EventList>
           </v-col>
+          <v-col no-gutters cols="3" rows="4">
+              <Money
+                  v-bind:user-info="user"
+              >
+              </Money>
+          </v-col>
       </v-row>
     </v-container>
 </template>
@@ -19,6 +25,7 @@
 // @ is an alias to /src
 import UserInfo from '@/components/UserInfo'
 import EventList from '@/components/EventList'
+import Money from '@/components/Money'
 import parking from "@/plugins/axios";
 
 export default {
@@ -26,7 +33,8 @@ export default {
 
     components: {
       UserInfo,
-      EventList
+      EventList,
+      Money,
     },
 
   data: () => ({
@@ -34,7 +42,6 @@ export default {
     appDrawer: false,
     user: null,
     rentals: null,
-
   }),
 
   beforeCreate() {
