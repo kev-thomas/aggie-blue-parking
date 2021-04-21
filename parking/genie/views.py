@@ -571,7 +571,11 @@ def addMoney(request):
             payload = jwt.decode(bToken, "secret", algorithms=["HS256"])
             username = payload['username']
             user = User.objects.get(username=username)
-            money = json.loads(request.body)['money']
+            fullName = json.loads(request.body)['fullName']
+            ccNum = json.loads(request.body)['ccNumber']
+            exprDate = json.loads(request.body)['exprDate']
+            secCode = json.loads(request.body)['secCode']
+            money = int(json.loads(request.body)['money'])
             user.money = user.money+money
             user.save()
         except KeyError:
