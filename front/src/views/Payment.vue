@@ -4,29 +4,29 @@
       <v-card-title>Payment Information</v-card-title>
       <v-card-text>
         <v-text-field
-          v-model="payment['fullName']"
+          
           label="Full name"
           required
         ></v-text-field>
 
         <v-text-field
-          v-model="payment['ccNumber']"
+          
           label="Credit card number"
           required
         ></v-text-field>
         <v-text-field
-          v-model="payment['exprDate']"
+          
           label="Expiration date"
           required
         ></v-text-field>
 
         <v-text-field
-          v-model="payment['secCode']"
+          
           label="Security code"
           required
         ></v-text-field>
         <v-text-field
-          v-model="payment['amount']"
+          v-model="payment['money']"
           label="$ Amount"
           required
         ></v-text-field>
@@ -41,27 +41,17 @@
 </template>
 
 <script>
-// import parking from '../plugins/axios'
+import parking from '../plugins/axios'
 export default {
   name: "Payment",
 
   data: () => ({
-    // !Why does this fail if user is changed??!
-    user: {
-      firstname: '',
-      lastname: '',
-      username: '',
-      email: '',
-      password: '',
-      renter: 'true',
-      owner: 'false',
-    },
     payment: {
-      fullName: '',
-      ccNumber: '',
-      exprDate: '',
-      secCode: '',
-      amount: '',
+      // fullName: '',
+      // ccNumber: '',
+      // exprDate: '',
+      // secCode: '',
+      money: '',
     },
     person: null,
     valid: true,
@@ -72,15 +62,20 @@ export default {
   methods: {
     async pay() {
       console.log("WIP");
-    //   try {
-    //         let response = await parking.post('register', this.user);
-    //         // this.person = response.data;
-    //         console.log(response.data);
-    //       }
-    //       catch(error) {
-    //         console.log('OHNO');
-    //         console.log(error);
-    //       }
+      try {
+          if(this.$session.exists()) {
+            let newSpot = await parking.post('addMoney', this.payment, {
+              headers: {
+                Authorization: this.$session.get('user')
+              }
+            });
+
+            console.log(newSpot.data);
+          }
+        }
+        catch(error) {
+          console.log(error);
+        }
     }
   }
 }
