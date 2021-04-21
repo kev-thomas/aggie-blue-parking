@@ -17,6 +17,9 @@
               >
               </Money>
           </v-col>
+          <v-col no-gutters cols="3" rows="4">
+              <OwnerInfo></OwnerInfo>
+          </v-col>
       </v-row>
     </v-container>
 </template>
@@ -26,7 +29,9 @@
 import UserInfo from '@/components/UserInfo'
 import EventList from '@/components/EventList'
 import Money from '@/components/Money'
+import OwnerInfo from '@/components/OwnerInfo';
 import parking from "@/plugins/axios";
+
 
 export default {
   name: 'Home',
@@ -35,6 +40,7 @@ export default {
       UserInfo,
       EventList,
       Money,
+      OwnerInfo,
     },
 
   data: () => ({

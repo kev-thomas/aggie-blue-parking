@@ -7,6 +7,7 @@ import Register from '../views/Register.vue'
 import Events from '../views/Events.vue'
 import Account from '../views/Account.vue'
 import Payment from '../views/Payment.vue'
+import CreateSpot from '../views/CreateSpot.vue'
 // import UserInfo from '../components/userInfo.vue'
 
 //stuff for checking routes
@@ -64,6 +65,11 @@ const routes = [
         }
       }
     }
+  },
+  {
+    path: '/createspot',
+    name: 'CreateSpot',
+    component: CreateSpot,
   },
   {
     path: '/account',
