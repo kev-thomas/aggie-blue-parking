@@ -62,7 +62,7 @@ __Commit & push procedure__
 - Write meaningful commit message `git commit -m "<message>"`
 - `git push`
 
-## Tool stack description and setup procedure
+## Tool stack description
 
 __Front end:__
 
@@ -70,41 +70,101 @@ For the front end we will use the [Vue](https://vuejs.org/) framework on javascr
 
 __Back end:__
 
-For the back end we will use [Djando](https://www.djangoproject.com/) framework for python. We will be using python3.6 or above.
+For the back end we will use [Djando](https://www.djangoproject.com/) framework for Python.
 
 __Database:__
 
 Django uses [SQLite](https://www.sqlite.org/index.html) by default and we will be using it on this project.
 
-__Setup:__
+## Running the project locally
 
-This project is quite simple to run in the linux terminal:
+### API:
+The API for this project is built on Django and Python 3.9. If you do not have Python 3.9 installed, download it 
+[here.](https://www.python.org/downloads/) Once installed, create a Python Virtual Environment:
 
-`$ cd <project root directory>/`
+```
+$ cd [project root directory]
+$ python -m venv venv
+```
 
-`$ python manage.py runserver`
+Once the virtual environment has been created, activate it to use with the project:
 
-The server should be up and running at:
+`$ "venv/bin/activate"`
 
-`http://localhost:8000/genie`
+Or on Windows:
 
-To login as an admin:
+`$ "venv/Scripts/activate.bat"`
+
+Once you've successfully activated the Virtual Environment, your terminal should look like this:
+
+`(venv) $`
+
+Install the project dependencies:
+
+`(venv) $ pip install -r requirements.txt`
+
+Then run the project:
+
+```
+(venv) $ cd parking
+(venv) $ python manage.py runserver
+```
+
+You should receive confirmation that the API is running:
+
+```
+Watching for file changes with StatReloader
+Performing system checks...
+
+Logging started on root for DEBUG
+System check identified no issues (0 silenced).
+April 21, 2021 - 14:57:07
+Django version 3.1.7, using settings 'parking.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+```
+To login as an admin, visit:
 
 `http://localhost:8000/admin/`
 
-## Build instructions
-
-make sure you have python 3.6 or higher
-
-`$ pip install -r requirements.txt`
-
-`$ git clone git@github.com:andrewjouffray/group9-project.git`
-
 __Note: When making changes to the models, update the database by:__
 
-	$ cd <project root directory>/
-	$ python manage.py makemigartions
-	$ python manage.py migrate
+	(venv) $ python manage.py makemigrations
+	(venv) $ python manage.py migrate
+	
+### Front-end:
+Ensure you have the Node Package Manager (npm) installed. You can download it [here.](https://www.npmjs.com/package/npm)
+
+Once you have node installed and configured, install the project dependencies:
+```
+$ cd [project root directory]/front
+$ npm install
+```
+Once project dependencies are successfully installed, you can run a development server:
+
+`$ npm run serve`
+
+Once the development server is ready, you'll receive confirmation that the app is running:
+```
+ App running at:
+  - Local:   http://localhost:8080/
+  - Network: http://[Your IP Address]:8080/
+
+  Note that the development build is not optimized.
+  To create a production build, run npm run build.
+```
+
+To export the project for deployment:
+
+`$ npm run build`
+
+__Note: Your API URL should match the VUE_APP_API in the environment file (.env):__
+
+    NODE_ENV=development
+    VUE_APP_API=http://localhost:8000
+    VUE_APP_KEY=secret
+    VUE_APP_TITLE=PARKING GENIE
+
 
 ## Unit testing instruction:
 

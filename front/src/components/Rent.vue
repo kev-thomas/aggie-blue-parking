@@ -32,7 +32,7 @@
             <v-list-item-content>
               <v-list-item-title v-text="space.address"></v-list-item-title>
               <v-list-item-subtitle>
-                Price: {{ space.price }}
+                Price: ${{ space.price }}
               </v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
@@ -140,7 +140,7 @@ export default {
           if('message' in response) {
             if(response.message === 'success') {
               this.alertType = 'success'
-              this.alertMessage = 'Success!'
+              this.alertMessage = `Success! Your Confirmation code is ${response.code}`
               this.alert = true;
             }
           }
