@@ -449,6 +449,28 @@ Make a `POST` to `http://localhost:8000/genie/createParking`
     		"price": 10
 	}
 
+### Add Money Request
+
+Make a `POST` to `http://localhost:8000/genie/addMoney`
+
+	header= {
+     		"Content-Type": "application/json",
+     		"Authorization": <insert token from login answer here>,
+	}
+
+	body= {
+     		"money": 10
+	}
+	
+Answer should look like this if auth successful:
+
+	code 200 OK
+	
+If not successful:
+
+	code 401
+	Unauthorized
+
 ## System testing instructions:
 
 The whole components that make up the system include:

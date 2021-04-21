@@ -560,6 +560,25 @@ def createParking(request):
         newParking.save()
         return HttpResponse('OK', status=200)
 
+@csrf_exempt
+def addMoney(request):
+    if request.method == 'POST':
+        header = request.headers
+        token = header['Authorization']
+        bToken = token.encode('utf-8')
+
+        try:
+            payload = jwt.decode(bToken, "secret", algorithms=["HS256"])
+            username = payload['username']
+            user = User.objects.get(username=username)
+            money = json.loads(request.body)['money']
+            user.money = user.money+money
+            user.save()
+        except KeyError:
+            response = JsonResponse({'ERROR': 'MALFORMED REQUEST'}, 400)
+            return response
+        return HttpResponse('OK', status=200)
+
 
 # Helper Functions, not handlers =================================================================================HELPERS===================================
 
