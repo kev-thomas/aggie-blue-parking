@@ -14,8 +14,8 @@
                     color="rgba(0,0,0,0)"
                 >
                     <v-toolbar-title class="title white--text pl-0">Welcome back, {{userInfo.firstName}}!</v-toolbar-title>
-                    <v-spacer/>
-                    <v-subheader class="title white--text pl-0">Current balance: ${{userInfo.money}}</v-subheader>
+<!--                    <v-spacer/>-->
+<!--                    <v-subheader class="title white&#45;&#45;text pl-0">Current balance: ${{userInfo.money}}</v-subheader>-->
                 </v-toolbar>
             </v-img>
             <v-card-actions>

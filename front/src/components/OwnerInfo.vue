@@ -6,7 +6,7 @@
         color="primary"
         @click="goToCreateSpot"
       >
-        Create a spot
+        Register a Parking Space
       </v-btn>
     </v-card>
   </v-container>

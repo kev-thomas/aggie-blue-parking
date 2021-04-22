@@ -3,7 +3,7 @@
 >
   <v-container>
     <v-card>
-      ${{ userInfo.money }} left in your account
+       Current balance: ${{ userInfo.money }}
       <v-divider
         vertical
       ></v-divider>
@@ -12,7 +12,7 @@
         color="primary"
         @click="goToAddPayment"
       >
-        Add money
+        Add Funds
       </v-btn>
     </v-card>
   </v-container>
