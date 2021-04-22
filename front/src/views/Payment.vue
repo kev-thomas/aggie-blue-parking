@@ -70,7 +70,9 @@ export default {
               }
             });
 
-            console.log(newSpot.data);
+            if(newSpot.data == "OK") {
+              await this.$router.push('/', () => {})
+            }
           }
         }
         catch(error) {

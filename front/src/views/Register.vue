@@ -63,8 +63,8 @@
         username: '',
         email: '',
         password: '',
-        renter: 'true',
-        owner: 'false',
+        renter: 'True',
+        owner: 'False',
       },
       person: null,
       valid: true,
@@ -77,7 +77,13 @@
         try {
               let response = await parking.post('register', this.user);
               // this.person = response.data;
-              console.log(response.data);
+              
+              if(response.data == "OK") {
+                await this.$router.push('/login', () => {})
+              }
+              else {
+                window.alert("There has been an error with registering your account, please try again at another time.");
+              }
             }
         catch(error) {
           console.log(error);
