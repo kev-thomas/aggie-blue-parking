@@ -165,7 +165,18 @@ __Note: Your API URL should match the VUE_APP_API in the environment file (.env)
     VUE_APP_KEY=secret
     VUE_APP_TITLE=PARKING GENIE
 
-
+### Users
+Various users are available for testing. To access the Administrator portal (http://localhost:8000/admin/),
+use:
+```
+Username: admin
+Password: admin
+```
+To login with an existing user on the front-end (http://localhost:8080/login), use:
+```
+Username: john
+Password: secret
+```
 ## Unit testing instruction:
 
 Each endpoint of the apis in the back end must be individually tested using the [Postman](https://www.postman.com/) app.
